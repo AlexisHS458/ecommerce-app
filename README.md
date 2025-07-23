@@ -154,72 +154,51 @@ src/app/
   not-found/    # Página 404
 ```
 
----
+## 🗂️ Estructura de carpetas (detallada)
 
-## 🗺️ Diagrama ER (Entidad-Relación) de la base de datos
-
-> **Nota:** Puedes visualizar este diagrama en [Mermaid Live Editor](https://mermaid.live/) y exportarlo como imagen PNG/SVG para tu documentación.
-
-```mermaid
-erDiagram
-  USERS {
-    string uid PK
-    string email
-    string firstName
-    string lastName
-    string phone
-    string dateOfBirth
-    string gender
-    boolean newsletter
-  }
-  PRODUCTS {
-    string id PK
-    string title
-    number price
-    string category
-    string brand
-    number discountPercentage
-    number rating
-    string thumbnail
-  }
-  USERS ||--o{ CART : has
-  CART {
-    string id PK
-    string userId FK
-    string productId FK
-    number quantity
-    string title
-    number price
-    string thumbnail
-    string category
-    number discountPercentage
-    // ...otros campos del producto
-  }
-  USERS ||--o{ WISHLIST : has
-  WISHLIST {
-    string id PK
-    string userId FK
-    string productId FK
-    string title
-    number price
-    string thumbnail
-    string category
-    number discountPercentage
-    // ...otros campos del producto
-  }
-  PRODUCTS ||--o{ CART : in
-  PRODUCTS ||--o{ WISHLIST : in
+```
+src/
+  app/
+    core/
+      guards/           # Guards de rutas (AuthGuard, etc)
+      interceptors/     # Interceptores HTTP globales
+      models/           # Modelos y tipados TypeScript (User, Product, CartItem, etc)
+      services/         # Servicios singleton (auth, productos, carrito, wishlist, loading, modal, etc)
+    auth/
+      pages/
+        login/          # Página de login (login.component.*)
+        register/       # Página de registro (register.component.*)
+        profile/        # Página de perfil de usuario (profile.component.*)
+    shop/
+      components/
+        cart/           # Componente visual del carrito
+        product-card/   # Tarjeta de producto reutilizable
+        product-list/   # Listado de productos
+      pages/
+        home/           # Página principal (home, hero, carouseles, etc)
+        products/       # Catálogo de productos
+        product-detail/ # Detalle de producto
+        cart/           # Página de carrito
+        wishlist/       # Página de wishlist
+      shop-routing.module.ts  # Ruteo específico de la tienda
+      shop.module.ts          # Módulo de la tienda
+      shop.routes.ts          # Rutas standalone
+    shared/
+      components/
+        navbar/         # Navbar principal, búsqueda, menú usuario, etc
+        footer/         # Footer global
+    not-found/          # Página 404 (not-found.component.*)
+  assets/
+    i18n/              # Archivos de internacionalización (en.json, es.json)
+  environments/         # Configuración de entornos (enviroments.ts)
+  styles.css            # Estilos globales (Tailwind + custom)
+  index.html            # HTML principal
+  main.ts               # Bootstrap de la app
 ```
 
----
-
-## 🧩 Troubleshooting y buenas prácticas
-
-- **Errores de permisos:** Revisa las reglas de Firestore.
-- **Perfil no se muestra:** Asegúrate de que el documento `/users/{uid}` existe y tiene los campos correctos.
-- **Página de perfil lenta:** Revisa el uso de signals/effect para evitar ciclos infinitos.
-- **Producción:** Usa reglas de seguridad estrictas y variables de entorno adecuadas.
-
----
-
-¿Dudas? ¿Quieres ejemplos de uso de los servicios, screenshots, o una sección de troubleshooting más detallada? ¡Avísame!
+**Notas:**
+- Cada carpeta de página suele tener su propio archivo `.component.ts`, `.component.html` y opcionalmente `.component.css`.
+- Los servicios y modelos en `core/` son singleton y se inyectan globalmente.
+- Los componentes en `shared/` y `shop/components/` son reutilizables en varias páginas.
+- El ruteo principal está en `app.routes.ts` y delega a rutas de módulos como `shop.routes.ts`.
+- Los archivos de entorno y configuración (`environments/`, `firebase.json`, etc) no deben subirse a git salvo los de ejemplo.
