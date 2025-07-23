@@ -1,0 +1,18 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <app-product-card 
+    *ngFor="let product of products()" 
+    [product]="product"
+    (addToCartClick)="addToCart($event)"
+    (addToWishlistClick)="addToWishlist($event)"
+    (viewProductClick)="viewProduct($event.id)"
+  ></app-product-card>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="products().length === 0" class="text-center py-12">
+  <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+    <i class="pi pi-box text-gray-400 text-2xl"></i>
+  </div>
+  <h3 class="text-lg font-medium text-gray-900 mb-2">No se encontraron productos</h3>
+  <p class="text-gray-500">Intenta ajustar tus filtros de búsqueda</p>
+</div> 

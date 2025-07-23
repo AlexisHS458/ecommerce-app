@@ -1,0 +1,133 @@
+import { Injectable, signal, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Product } from '../models/product.model';
+
+export interface Category {
+  slug: string;
+  name: string;
+  url: string;
+  icon: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class ProductService {
+  products = signal<Product[]>([]);
+  categories = signal<Category[]>([]);
+  totalProducts = signal<number>(0);
+  loading = signal<boolean>(false);
+
+  private http = inject(HttpClient);
+
+  // Mapa de iconos PrimeNG por slug
+  private categoryIcons: Record<string, string> = {
+    beauty: 'pi pi-star',
+    fragrances: 'pi pi-sun',
+    furniture: 'pi pi-table',
+    groceries: 'pi pi-shopping-bag',
+    'home-decoration': 'pi pi-home',
+    'kitchen-accessories': 'pi pi-inbox',
+    laptops: 'pi pi-desktop',
+    'mens-shirts': 'pi pi-user',
+    'mens-shoes': 'pi pi-shopping-bag',
+    'mens-watches': 'pi pi-clock',
+    'mobile-accessories': 'pi pi-mobile',
+    motorcycle: 'pi pi-car',
+    'skin-care': 'pi pi-heart',
+    smartphones: 'pi pi-mobile',
+    'sports-accessories': 'pi pi-bolt',
+    sunglasses: 'pi pi-eye',
+    tablets: 'pi pi-tablet',
+    tops: 'pi pi-user',
+    vehicle: 'pi pi-car',
+    'womens-bags': 'pi pi-briefcase',
+    'womens-dresses': 'pi pi-user',
+    'womens-jewellery': 'pi pi-gem',
+    'womens-shoes': 'pi pi-shopping-bag',
+    'womens-watches': 'pi pi-clock',
+  };
+
+  getCategoryIcon(slug: string): string {
+    return this.categoryIcons[slug] || 'pi pi-tag';
+  }
+
+  fetchProducts({
+    limit = 12,
+    skip = 0,
+    category = '',
+    search = '',
+    sortBy = '',
+    order = '',
+  }: {
+    limit?: number;
+    skip?: number;
+    category?: string;
+    search?: string;
+    sortBy?: string;
+    order?: string;
+  } = {}) {
+    this.loading.set(true);
+    let url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+    if (category) {
+      url = `https://dummyjson.com/products/category/${encodeURIComponent(
+        category
+      )}?limit=${limit}&skip=${skip}`;
+    }
+    if (search) {
+      url = `https://dummyjson.com/products/search?q=${encodeURIComponent(
+        search
+      )}&limit=${limit}&skip=${skip}`;
+    }
+    // Agregar ordenamiento si está presente y soportado
+    if (sortBy) {
+      url += `&sortBy=${sortBy}`;
+      if (order) {
+        url += `&order=${order}`;
+      }
+    }
+    this.http.get<{ products: Product[]; total: number }>(url).subscribe({
+      next: (response) => {
+        this.products.set(response.products || []);
+        this.totalProducts.set(
+          response.total || (response.products ? response.products.length : 0)
+        );
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error fetching products:', error);
+        this.products.set([]);
+        this.totalProducts.set(0);
+        this.loading.set(false);
+      },
+    });
+  }
+
+  getCategories() {
+    this.http
+      .get<
+        {
+          slug: string;
+          name: string;
+          url: string;
+        }[]
+      >('https://dummyjson.com/products/categories')
+      .subscribe({
+        next: (response) => {
+          console.log('API categories:', response);
+          // Agrega el icono SVG a cada categoría
+          const categoriesWithIcon = response.map(category => ({
+            ...category,
+            icon: this.getCategoryIcon(category.slug)
+          }));
+          this.categories.set(categoriesWithIcon);
+        },
+        error: (error) => {
+          console.error('Error fetching categories:', error);
+          this.categories.set([]);
+        },
+      });
+  }
+
+  getProductById(id: number | string) {
+    return this.http.get<Product>(`https://dummyjson.com/products/${id}`);
+  }
+}

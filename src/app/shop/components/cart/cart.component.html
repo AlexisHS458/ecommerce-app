@@ -1,0 +1,114 @@
+<div class="container mx-auto px-4 py-10">
+  <div class="mb-8 rounded-xl bg-blue-50 py-8 px-4 text-center shadow">
+    <h1 class="text-3xl font-extrabold text-blue-700 mb-2">Carrito de Compras</h1>
+    <p class="text-lg text-gray-700">Revisa tus productos antes de finalizar la compra.</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading || cartService.cartItems() === null" class="flex flex-col items-center justify-center py-16">
+    <p-progressSpinner styleClass="w-10 h-10 mb-4"></p-progressSpinner>
+    <p class="text-blue-400 text-lg">Cargando carrito...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && ((cartItems()?.length ?? 0) === 0)" class="text-center py-16">
+    <i class="pi pi-shopping-cart text-5xl text-blue-200 mb-4"></i>
+    <h2 class="text-2xl font-semibold text-blue-700 mb-2">Tu carrito está vacío</h2>
+    <p class="text-gray-500 mb-6">Agrega algunos productos para comenzar</p>
+    <p-button 
+      routerLink="/"
+      label="Continuar Comprando"
+      icon="pi pi-arrow-left"
+      styleClass="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-bold shadow"
+    ></p-button>
+  </div>
+
+  <!-- Cart Content -->
+  <ng-container *ngIf="!loading && ((cartItems()?.length ?? 0) > 0)">
+    <p-blockUI [blocked]="blockCart().valueOf() || false" />
+    <div 
+    class="flex flex-col lg:flex-row gap-10">
+      <!-- Cart Items -->
+      <div class="flex-1 bg-white rounded-xl shadow-lg border-2 border-blue-100 p-8">
+
+        <p-table  [value]="cartItems() || []" responsiveLayout="scroll" class="cart-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>
+                <div class="flex items-center gap-3">
+                  <img [src]="item.thumbnail" [alt]="item.title" class="w-14 h-14 object-cover rounded" />
+                  <div>
+                    <div class="font-bold text-blue-800">{{ item.title }}</div>
+                    <div class="text-xs text-blue-500">{{ item.category }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="text-center">${{ getItemPrice(item) | number:'1.0-0' }}</td>
+              <td class="text-center">
+                <div class="inline-flex items-center border rounded bg-blue-50">
+                  <p-button icon="pi pi-minus" (onClick)="updateQuantity(item, item.quantity - 1)" [disabled]="item.quantity <= 1" styleClass="p-button-text"></p-button>
+                  <input pInputText [(ngModel)]="item.quantity" type="number" min="1" max="99" (change)="updateQuantity(item, item.quantity)" class="w-12 text-center border-0 focus:outline-none bg-blue-50" />
+                  <p-button icon="pi pi-plus" (onClick)="updateQuantity(item, item.quantity + 1)" [disabled]="item.quantity >= 99" styleClass="p-button-text"></p-button>
+                </div>
+              </td>
+              <td class="text-center font-bold text-blue-800">${{ getItemPrice(item) * item.quantity | number:'1.0-0' }}</td>
+              <td class="text-center">
+                <p-button (onClick)="removeItem(item.id)" icon="pi pi-trash" styleClass="bg-white text-red-600 border border-red-500 hover:bg-red-50 font-bold py-1 px-2 rounded text-sm shadow" pTooltip="Eliminar" tooltipPosition="top"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="w-full lg:w-[350px] bg-white rounded-xl shadow-lg border-2 border-blue-100 p-8 flex flex-col h-fit">
+        <h2 class="text-xl font-bold text-blue-800 mb-6 w-full text-center">Resumen</h2>
+        <div class="space-y-2 mb-4 w-full">
+          <div class="flex justify-between">
+            <span>Subtotal ({{ cartCount() }} items)</span>
+            <span class="font-bold text-blue-800">${{ cartTotal() | number:'1.0-0' }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Envío</span>
+            <span class="text-green-600 font-semibold">Gratis</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Impuestos</span>
+            <span class="font-bold text-blue-800">${{ (cartTotal() * 0.16) | number:'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="border-t pt-4 mb-4 w-full">
+          <div class="flex justify-between text-lg font-bold">
+            <span>Total</span>
+            <span class="text-blue-700">${{ (cartTotal() * 1.16) | number:'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="space-y-2 w-full mt-6 space-x-2">
+          <p-button 
+            (onClick)="checkout()"
+            [disabled]="(cartItems()?.length ?? 0) === 0"
+            label="Proceder al Checkout"
+            icon="pi pi-credit-card"
+            styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+          ></p-button>
+          <p-button 
+            (onClick)="clearCart()"
+            [disabled]="(cartItems()?.length ?? 0) === 0"
+            label="Vaciar Carrito"
+            icon="pi pi-trash"
+            styleClass="bg-white text-red-600 border border-red-500 hover:bg-red-50 font-bold py-2 px-4 rounded text-base shadow mt-4"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div> 

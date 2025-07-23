@@ -1,0 +1,251 @@
+/* Products Page Styles */
+
+/* Filter Sidebar */
+.filter-sidebar {
+  position: sticky;
+  top: 2rem;
+}
+
+/* Range Input Styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #2563eb;
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: #2563eb;
+  transform: scale(1.1);
+}
+
+/* Star Rating Filter */
+.star-rating-filter span {
+  transition: all 0.2s ease;
+}
+
+.star-rating-filter span:hover {
+  transform: scale(1.2);
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Product List View */
+.product-list-item {
+  transition: all 0.2s ease;
+}
+
+.product-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination */
+.pagination-button {
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* Filter Tags */
+.filter-tag {
+  transition: all 0.2s ease;
+}
+
+.filter-tag:hover {
+  transform: scale(1.05);
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .filter-sidebar {
+    position: static;
+  }
+  
+  .filter-sidebar.hidden {
+    display: none;
+  }
+}
+
+/* Loading Animation */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Smooth Transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Focus States */
+.focus-ring:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Button Hover Effects */
+.btn-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Hover Effects */
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sort-controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .view-toggle {
+    width: 100%;
+  }
+}
+
+/* Filter Sidebar Mobile */
+@media (max-width: 1024px) {
+  .filter-sidebar {
+    margin-bottom: 1rem;
+  }
+  
+  .filter-toggle {
+    display: block;
+  }
+}
+
+/* Price Range Labels */
+.price-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+/* Active Filter Indicators */
+.active-filter {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: none;
+}
+
+.active-filter:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+/* Results Counter */
+.results-counter {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Sort Dropdown */
+.sort-dropdown {
+  min-width: 200px;
+}
+
+/* View Toggle */
+.view-toggle {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #d1d5db;
+}
+
+.view-toggle button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.view-toggle button.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.view-toggle button:not(.active) {
+  background-color: white;
+  color: #374151;
+}
+
+.view-toggle button:not(.active):hover {
+  background-color: #f3f4f6;
+} 

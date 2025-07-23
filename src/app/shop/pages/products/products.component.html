@@ -1,0 +1,154 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="container mx-auto px-4">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2 text-center">Todos los Productos</h1>
+      <p class="text-gray-600 text-center">Encuentra exactamente lo que necesitas</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Filters Sidebar -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg border-2 border-blue-100 p-8 mb-8">
+          <h3 class="text-lg font-bold text-blue-800 mb-6">Filtrar productos</h3>
+          <div class="space-y-8">
+            <!-- Search Input -->
+            <div>
+              <label for="search-input" class="block text-sm font-medium text-blue-700 mb-2">
+                Buscar productos
+              </label>
+              <div class="relative">
+                <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  id="search-input"
+                  pInputText
+                  [(ngModel)]="searchQuery"
+                  (keyup.enter)="onSearch()"
+                  placeholder="Buscar por nombre"
+                  class="w-full pl-10 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="selectedCategory !== ''"
+                  pTooltip="Deshabilitado porque hay una categoría seleccionada"
+                  [tooltipDisabled]="!selectedCategory"
+                />
+              </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div>
+              <label for="category-select" class="block text-sm font-medium text-blue-700 mb-2">
+                Categoría
+              </label>
+              <p-select
+                id="category-select"
+                [options]="categoryOptions"
+                [(ngModel)]="selectedCategory"
+                (onChange)="onFilterChange()"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Selecciona categoría"
+                class="w-full"
+                [showClear]="true"
+                [filter]="true"
+                [disabled]="!!searchQuery"
+                pTooltip="Deshabilitado porque hay una búsqueda activa"
+                [tooltipDisabled]="!searchQuery"
+              ></p-select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="lg:col-span-3">
+        <div class="bg-white rounded-xl shadow-lg border-2 border-blue-100 p-8 mb-10">
+          <!-- Results Header -->
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="text-2xl font-bold text-blue-800">
+                Resultados ({{ productService.totalProducts() }} productos)
+              </h3>
+              <div *ngIf="hasActiveFilters()" class="flex items-center gap-2 mt-2">
+                <span class="text-sm text-gray-600">Filtros activos:</span>
+                <p-chip *ngIf="searchQuery" label="'{{ searchQuery }}'" icon="pi pi-search" removable="true" (onRemove)="clearSearch()"></p-chip>
+                <p-chip *ngIf="selectedCategory" [label]="selectedCategory" icon="pi pi-tag" removable="true" (onRemove)="clearCategory()"></p-chip>
+                <!-- Eliminado clearBrand -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Sort and View Controls -->
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center space-x-4">
+              <label for="sort-select" class="text-sm font-medium text-gray-700">Ordenar por:</label>
+              <p-select
+                id="sort-select"
+                [options]="sortOptions"
+                [(ngModel)]="sortBy"
+                (onChange)="onSortChange()"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Selecciona orden"
+                class="w-full md:w-56 min-w-[200px]"
+              />
+            </div>
+            <!-- Eliminado selector de elementos por página y switch grid/list -->
+          </div>
+
+          <!-- Loading State -->
+          <div *ngIf="loading" class="text-center py-12">
+            <p-progress-spinner styleClass="w-16 h-16"></p-progress-spinner>
+            <p class="text-gray-600 mt-4">Cargando productos...</p>
+          </div>
+
+          <!-- No Results -->
+          <p-card *ngIf="!loading && productService.products().length === 0" styleClass="text-center">
+            <i class="pi pi-search text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No se encontraron productos</h3>
+            <p class="text-gray-600 mb-4">Intenta ajustar tus filtros de búsqueda</p>
+            <p-button 
+              label="Limpiar filtros"
+              icon="pi pi-refresh"
+              (onClick)="clearAllFilters()"
+              styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+            ></p-button>
+          </p-card>
+
+          <!-- Products Grid View -->
+          <div *ngIf="!loading && getSortedProducts().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <app-product-card 
+              *ngFor="let product of getSortedProducts()" 
+              [product]="product"
+              (addToCartClick)="addToCart($event)"
+              (addToWishlistClick)="addToWishlist($event)"
+              (removeFromWishlistClick)="removeFromWishlist($event.id)"
+              (viewProductClick)="viewProduct($event.id)"
+              [addingToCart]="addingToCart[product.id]"
+              [addingToWishlist]="addingToWishlist[product.id]"
+              [removingFromWishlist]="removingFromWishlist[product.id]"
+            ></app-product-card>
+          </div>
+
+          <!-- Products List View -->
+          <!-- Eliminado -->
+
+          <!-- Pagination -->
+          <div *ngIf="!loading && totalPages > 1" class="mt-8 flex justify-center" #paginatorSection>
+            <p-paginator
+              [rows]="itemsPerPage"
+              [totalRecords]="productService.totalProducts()"
+              [first]="((currentPage - 1) * itemsPerPage) || 0"
+              (onPageChange)="onPrimeNgPageChange({
+                first: $event.first ?? 0,
+                rows: $event.rows ?? itemsPerPage,
+                page: $event.page ?? 0,
+                pageCount: $event.pageCount ?? totalPages
+              }); paginatorSection.scrollIntoView({behavior: 'smooth', block: 'start'});"
+              [rowsPerPageOptions]="[12, 24, 48]"
+              styleClass="shadow rounded-lg"
+            ></p-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

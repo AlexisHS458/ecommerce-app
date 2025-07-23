@@ -1,0 +1,76 @@
+/* Product Images Carousel Styles */
+.product-images-carousel ::ng-deep .p-carousel-container {
+  padding: 0;
+}
+
+.product-images-carousel ::ng-deep .p-carousel-indicators {
+  margin-top: 1rem;
+}
+
+.product-images-carousel ::ng-deep .p-carousel-indicators button {
+  background-color: #e5e7eb;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+}
+
+.product-images-carousel ::ng-deep .p-carousel-indicators button.p-highlight {
+  background-color: #3b82f6;
+  transform: scale(1.2);
+}
+
+.product-images-carousel ::ng-deep .p-carousel-prev,
+.product-images-carousel ::ng-deep .p-carousel-next {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.product-images-carousel ::ng-deep .p-carousel-prev {
+  left: 10px;
+}
+
+.product-images-carousel ::ng-deep .p-carousel-next {
+  right: 10px;
+}
+
+.product-images-carousel ::ng-deep .p-carousel-prev:hover,
+.product-images-carousel ::ng-deep .p-carousel-next:hover {
+  background-color: white;
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Product Image Container */
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.product-image-container img {
+  transition: transform 0.3s ease;
+}
+
+.product-image-container:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-images-carousel ::ng-deep .p-carousel-prev,
+  .product-images-carousel ::ng-deep .p-carousel-next {
+    width: 35px;
+    height: 35px;
+  }
+} 

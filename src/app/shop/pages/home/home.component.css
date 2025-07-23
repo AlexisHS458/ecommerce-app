@@ -1,0 +1,106 @@
+/* Categories Carousel Styles */
+.categories-carousel ::ng-deep .p-carousel-container {
+  padding: 0 2rem;
+}
+
+.categories-carousel ::ng-deep .p-carousel-indicators {
+  margin-top: 1rem;
+}
+
+.categories-carousel ::ng-deep .p-carousel-indicators button {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+}
+
+.categories-carousel ::ng-deep .p-carousel-indicators button.p-highlight {
+  background-color: #3b82f6;
+  transform: scale(1.2);
+}
+
+.categories-carousel ::ng-deep .p-carousel-prev,
+.categories-carousel ::ng-deep .p-carousel-next {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.categories-carousel ::ng-deep .p-carousel-prev:hover,
+.categories-carousel ::ng-deep .p-carousel-next:hover {
+  background-color: #f3f4f6;
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Category Card Styles */
+.category-card {
+  padding: 0.5rem;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Products Carousel Styles */
+.products-carousel ::ng-deep .p-carousel-container {
+  padding: 0 2rem;
+}
+
+.products-carousel ::ng-deep .p-carousel-indicators {
+  margin-top: 1rem;
+}
+
+.products-carousel ::ng-deep .p-carousel-indicators button {
+  background-color: #e5e7eb;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+}
+
+.products-carousel ::ng-deep .p-carousel-indicators button.p-highlight {
+  background-color: #3b82f6;
+  transform: scale(1.2);
+}
+
+.products-carousel ::ng-deep .p-carousel-prev,
+.products-carousel ::ng-deep .p-carousel-next {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  transition: all 0.2s ease;
+}
+
+.products-carousel ::ng-deep .p-carousel-prev:hover,
+.products-carousel ::ng-deep .p-carousel-next:hover {
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Product Card Wrapper */
+.product-card-wrapper {
+  padding: 0.5rem;
+  background-color: white;
+}
+
+.product-card-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .categories-carousel ::ng-deep .p-carousel-container,
+  .products-carousel ::ng-deep .p-carousel-container {
+    padding: 0 1rem;
+  }
+} 

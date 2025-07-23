@@ -1,0 +1,60 @@
+<div class="container mx-auto px-4 py-8 bg-white">
+  <app-home-hero (explore)="viewCategory('')"></app-home-hero>
+  <div #categoriesCarousel>
+    <ng-container *ngIf="showCategoriesCarousel">
+      <app-home-categories-carousel
+        [categories]="productService.categories()"
+        [loading]="productService.loading()"
+        (viewCategory)="viewCategory($event)"
+      ></app-home-categories-carousel>
+    </ng-container>
+  </div>
+  <div #featuredCarousel>
+    <ng-container *ngIf="showFeaturedCarousel">
+      <app-home-products-carousel
+        title="Productos Destacados"
+        [products]="featuredProducts"
+        [loading]="productService.loading()"
+        [addingToCart]="addingToCart"
+        [addingToWishlist]="addingToWishlist"
+        [removingFromWishlist]="removingFromWishlist"
+        (addToCart)="addToCart($event)"
+        (addToWishlist)="addToWishlist($event)"
+        (removeFromWishlist)="removeFromWishlist($event)"
+        (viewProduct)="viewProduct($event)"
+      ></app-home-products-carousel>
+    </ng-container>
+  </div>
+  <div #newArrivalsCarousel>
+    <ng-container *ngIf="showNewArrivalsCarousel">
+      <app-home-products-carousel
+        title="Nuevos Productos"
+        [products]="newArrivals"
+        [loading]="productService.loading()"
+        [addingToCart]="addingToCart"
+        [addingToWishlist]="addingToWishlist"
+        [removingFromWishlist]="removingFromWishlist"
+        (addToCart)="addToCart($event)"
+        (addToWishlist)="addToWishlist($event)"
+        (removeFromWishlist)="removeFromWishlist($event)"
+        (viewProduct)="viewProduct($event)"
+      ></app-home-products-carousel>
+    </ng-container>
+  </div>
+  <div #dealsCarousel>
+    <ng-container *ngIf="showDealsCarousel">
+      <app-home-products-carousel
+        title="Ofertas"
+        [products]="dealsProducts"
+        [loading]="productService.loading()"
+        [addingToCart]="addingToCart"
+        [addingToWishlist]="addingToWishlist"
+        [removingFromWishlist]="removingFromWishlist"
+        (addToCart)="addToCart($event)"
+        (addToWishlist)="addToWishlist($event)"
+        (removeFromWishlist)="removeFromWishlist($event)"
+        (viewProduct)="viewProduct($event)"
+      ></app-home-products-carousel>
+    </ng-container>
+  </div>
+</div>

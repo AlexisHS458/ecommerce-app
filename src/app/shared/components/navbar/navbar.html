@@ -1,0 +1,154 @@
+<nav
+  class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-700 to-blue-500 shadow-lg backdrop-blur-md"
+>
+  <div class="container mx-auto px-4 flex justify-between items-center h-16">
+    <!-- Logo -->
+    <a
+      routerLink="/"
+      class="flex items-center gap-2 text-2xl font-extrabold text-white tracking-wide hover:text-blue-200 transition"
+    >
+      <i class="pi pi-shopping-bag text-3xl"></i>
+      <span class="md:inline hidden">Ecommerce</span>
+    </a>
+    <!-- Categorías y navegación desktop -->
+    <div class="hidden md:flex items-center space-x-6">
+      <div class="relative group">
+        <p-button
+          label="Categorías"
+          styleClass="text-white p-button-text font-medium transition"
+        />
+        <div
+          class="absolute top-full left-0 mt-2 w-64 max-h-80 overflow-y-auto bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
+        >
+          <div class="py-2">
+            <a
+              *ngFor="let category of productService.categories()"
+              (click)="viewCategory(category.name)"
+              (keyup.enter)="viewCategory(category.name)"
+              tabindex="0"
+              class="block px-4 py-2 text-sm text-blue-700 hover:bg-blue-100 rounded transition-colors duration-200 cursor-pointer"
+            >
+              <i [ngClass]="category.icon" class="mr-2"></i> {{ category.name }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <a
+        routerLink="/products"
+        class="text-white hover:text-blue-200 font-medium transition"
+        >Productos</a
+      >
+    </div>
+    <!-- Acciones -->
+    <div class="flex items-center space-x-4">
+      <!-- Botón de búsqueda solo en mobile -->
+      <button
+        type="button"
+        class="md:hidden text-white text-2xl p-2 mx-auto rounded hover:bg-blue-600 transition"
+        (click)="toggleMobileSearch()"
+      >
+        <i class="pi pi-search"></i>
+      </button>
+      <app-navbar-search
+        [searchQuery]="searchQuery"
+        (searchProducts)="searchProducts($event)"
+        (goToProductsSearch)="goToProductsSearch()"
+        [showMobileSearch]="false"
+        class="hidden md:block"
+      ></app-navbar-search>
+      <!-- Carrito -->
+      <a
+        *ngIf="authService.user() !== undefined && authService.user() !== null"
+        routerLink="/cart"
+        class="relative flex items-center justify-center group"
+      >
+        <p-button
+          icon="pi pi-shopping-cart"
+          styleClass="text-white text-2xl p-button-text hover:bg-blue-600 transition"
+        />
+        <span
+          *ngIf="cartService.getCartCount() > 0"
+          pBadge
+          [value]="cartService.getCartCount()"
+          severity="danger"
+          styleClass="absolute -top-2 -right-2 group-hover:scale-110 transition-transform"
+        ></span>
+      </a>
+      <!-- Wishlist -->
+      <a
+        *ngIf="authService.user() !== undefined && authService.user() !== null"
+        routerLink="/wishlist"
+        class="relative flex items-center justify-center group"
+      >
+        <p-button
+          icon="pi pi-heart"
+          styleClass="text-white text-2xl p-button-text hover:bg-blue-600 transition"
+        />
+        <span
+          *ngIf="wishlistService.getWishlistCount() > 0"
+          pBadge
+          [value]="wishlistService.getWishlistCount()"
+          severity="info"
+          styleClass="absolute -top-2 -right-2 group-hover:scale-110 transition-transform"
+        ></span>
+      </a>
+      <!-- Mostrar login/registro si el usuario es null o undefined -->
+      <ng-container *ngIf="authService.user() === null || authService.user() === undefined">
+        <a
+          routerLink="/login"
+          class="hidden md:inline-flex text-white hover:text-blue-200 font-medium transition"
+          >Iniciar Sesión</a
+        >
+        <a
+          routerLink="/register"
+          class="hidden md:inline-flex ml-2 text-white hover:text-blue-200 font-medium transition"
+          >Registrarse</a
+        >
+      </ng-container>
+      <app-user-menu
+        *ngIf="authService.user() !== undefined && authService.user() !== null"
+        class="hidden md:inline-flex"
+        [user]="authService.user()"
+        [userProfile]="authService.userProfile()"
+        [displayName]="displayName"
+        [getUserInitials]="getUserInitials"
+        [profileLoading]="profileLoading"
+        (logout)="logout()"
+      ></app-user-menu>
+
+      <!-- Mobile menu button -->
+      <button
+        (click)="openMobileDrawer()"
+        class="md:hidden text-white text-2xl p-2 rounded hover:bg-blue-600 transition"
+      >
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+  </div>
+  <!-- Buscador mobile flotante -->
+  <div *ngIf="showMobileSearch" class="md:hidden fixed top-16 left-0 right-0 z-50 bg-blue-100 shadow-lg px-4 py-3 flex items-center gap-2 animate-fade-in-down">
+    <app-navbar-search
+      [searchQuery]="searchQuery"
+      [showMobileSearch]="true"
+      (searchProducts)="searchProducts($event)"
+      (goToProductsSearch)="goToProductsSearch()"
+      class="flex-1"
+    ></app-navbar-search>
+    <button type="button" (click)="toggleMobileSearch()" class="ml-2 text-blue-700 text-2xl p-2 rounded hover:bg-blue-200 transition">
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
+  <app-navbar-mobile-menu
+    [user]="authService.user()"
+    [displayName]="displayName"
+    [getUserInitials]="getUserInitials"
+    [categories]="productService.categories()"
+    [showMobileDrawer]="showMobileDrawer"
+    (showMobileDrawerChange)="showMobileDrawer = $event"
+    [showMobileCategories]="showMobileCategories"
+    (showMobileCategoriesChange)="showMobileCategories = $event"
+    (logout)="logout()"
+    (viewCategoryEvent)="viewCategory($event)"
+  ></app-navbar-mobile-menu>
+</nav>
+<div class="h-16"></div>

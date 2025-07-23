@@ -1,0 +1,257 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl w-full space-y-8">
+    <!-- Header -->
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-blue-700 mb-2">Crear Cuenta</h1>
+      <p class="text-blue-500">Únete a nuestra comunidad</p>
+    </div>
+
+    <!-- Register Form -->
+    <div class="bg-white p-10 rounded-2xl shadow-lg border border-blue-100">
+      <form (ngSubmit)="register()" class="space-y-8">
+        <!-- Personal Information Section -->
+        <div class="border-b border-blue-100 pb-6">
+          <h3 class="text-lg font-bold text-blue-700 mb-4">Información Personal</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- First Name -->
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-blue-700 mb-2">
+                Nombre <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="pi pi-user absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  pInputText
+                  [(ngModel)]="firstName"
+                  name="firstName"
+                  type="text"
+                  placeholder="Tu nombre"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                  required
+                />
+              </div>
+            </div>
+            <!-- Last Name -->
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-blue-700 mb-2">
+                Apellido <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="pi pi-user absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  pInputText
+                  [(ngModel)]="lastName"
+                  name="lastName"
+                  type="text"
+                  placeholder="Tu apellido"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                  required
+                />
+              </div>
+            </div>
+            <!-- Email -->
+            <div class="md:col-span-2">
+              <label for="email" class="block text-sm font-medium text-blue-700 mb-2">
+                Correo electrónico <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="pi pi-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  pInputText
+                  [(ngModel)]="email"
+                  name="email"
+                  type="email"
+                  placeholder="tu@email.com"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                  required
+                />
+              </div>
+            </div>
+            <!-- Phone -->
+            <div>
+              <label for="phone" class="block text-sm font-medium text-blue-700 mb-2">
+                Teléfono
+              </label>
+              <div class="relative">
+                <i class="pi pi-phone absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  pInputText
+                  [(ngModel)]="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="+52 55 1234 5678"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                />
+              </div>
+            </div>
+            <!-- Date of Birth -->
+            <div>
+              <label for="dateOfBirth" class="block text-sm font-medium text-blue-700 mb-2">
+                Fecha de nacimiento
+              </label>
+              <div class="relative">
+                <i class="pi pi-calendar absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  id="dateOfBirth"
+                  pInputText
+                  [(ngModel)]="dateOfBirth"
+                  name="dateOfBirth"
+                  type="date"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                />
+              </div>
+            </div>
+            <!-- Gender -->
+            <div>
+              <label for="gender" class="block text-sm font-medium text-blue-700 mb-2">
+                Género
+              </label>
+              <select
+                id="gender"
+                [(ngModel)]="gender"
+                name="gender"
+                class="w-full px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                [disabled]="loading"
+              >
+                <option *ngFor="let option of genderOptions" [value]="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Information Section -->
+        <div class="border-b border-blue-100 pb-6">
+          <h3 class="text-lg font-bold text-blue-700 mb-4">Información de Cuenta</h3>
+          <div class="space-y-4">
+            <!-- Password -->
+            <div>
+              <label for="password" class="block text-sm font-medium text-blue-700 mb-2">
+                Contraseña <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  pInputText
+                  id="password"
+                  [(ngModel)]="password"
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                  required
+                />
+              </div>
+              <p class="text-xs text-blue-400 mt-1">Mínimo 6 caracteres</p>
+            </div>
+            <!-- Confirm Password -->
+            <div>
+              <label for="confirmPassword" class="block text-sm font-medium text-blue-700 mb-2">
+                Confirmar contraseña <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
+                <input
+                  pInputText
+                  id="confirmPassword"
+                  [(ngModel)]="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  [disabled]="loading"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="space-y-4">
+          <!-- Newsletter -->
+          <div class="flex items-center">
+            <input
+              [(ngModel)]="newsletter"
+              name="newsletter"
+              type="checkbox"
+              id="newsletter"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-blue-200 rounded"
+              [disabled]="loading"
+            />
+            <label for="newsletter" class="ml-2 block text-sm text-blue-700">
+              Quiero recibir noticias y ofertas especiales por email
+            </label>
+          </div>
+          <!-- Terms and Conditions -->
+          <div class="flex items-start">
+            <input
+              [(ngModel)]="termsAccepted"
+              name="termsAccepted"
+              type="checkbox"
+              id="terms"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-blue-200 rounded mt-1"
+              [disabled]="loading"
+              required
+            />
+            <label for="terms" class="ml-2 block text-sm text-blue-700">
+              Acepto los <a href="#" class="text-blue-600 hover:text-blue-800">términos y condiciones</a> 
+              y la <a href="#" class="text-blue-600 hover:text-blue-800">política de privacidad</a>
+              <span class="text-red-500">*</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-lg p-3">
+          <p class="text-sm text-red-600 text-center">{{ error }}</p>
+        </div>
+
+        <!-- Submit Button -->
+        <p-button
+          type="submit"
+          label="Registrarse"
+          [loading]="loading"
+          styleClass="w-full bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+        ></p-button>
+      </form>
+
+      <!-- Divider -->
+      <div class="mt-8">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-blue-200"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-blue-400">¿Ya tienes cuenta?</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Link -->
+      <div class="mt-8 text-center">
+        <button
+          (click)="goToLogin()"
+          class="text-blue-600 hover:text-blue-800 font-bold text-base"
+          type="button"
+        >
+          Iniciar sesión
+        </button>
+      </div>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="text-center">
+      <a routerLink="/" class="text-blue-400 hover:text-blue-700 text-sm font-medium">
+        ← Volver al inicio
+      </a>
+    </div>
+  </div>
+</div> 

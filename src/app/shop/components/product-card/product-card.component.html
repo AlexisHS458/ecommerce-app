@@ -1,0 +1,52 @@
+<p-card (click)="viewProduct()" styleClass="bg-white rounded-xl shadow-lg border-2 border-blue-100 p-0 hover:shadow-2xl hover:scale-[1.025] transition-all duration-200 overflow-hidden cursor-pointer group relative">
+  <!-- Único layout compacto para todos los dispositivos -->
+  <ng-container>
+    <div class="flex flex-col items-center text-center gap-2 p-1">
+      <div class="relative w-36 h-36 flex items-center justify-center bg-gray-50 rounded-lg mx-auto">
+        <img 
+          [src]="product.thumbnail" 
+          [alt]="product.title"
+          (error)="onImageError($event)"
+          class="w-32 h-32 object-contain rounded"
+          loading="lazy"
+        />
+        <p-badge *ngIf="product?.discountPercentage" value="-{{ product.discountPercentage }}%" severity="danger" styleClass="absolute top-1 left-1 text-xs font-bold px-2 py-1 rounded"></p-badge>
+      </div>
+      <span *ngIf="product?.category" class="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded font-medium">{{ product.category }}</span>
+      <h3 class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 min-h-[2rem]">{{ product.title }}</h3>
+      <div *ngIf="showRating" class="flex items-center justify-center gap-1 mb-1">
+        <p-rating [ngModel]="product.rating" [readonly]="true" [stars]="5" styleClass="text-base align-middle"></p-rating>
+        <span class="text-xs text-gray-500 ml-1">{{ product.rating ?? 0 }}</span>
+      </div>
+      <div class="flex flex-col items-center gap-1 mb-1">
+        <span class="text-lg font-bold text-gray-900">
+          ${{ getDiscountPrice(product.price, product.discountPercentage ?? 0) | number:'1.0-0' }}
+        </span>
+        <span *ngIf="product?.discountPercentage" class="text-xs text-gray-400 line-through">
+          ${{ product.price }}
+        </span>
+      </div>
+      <div *ngIf="showActions" class="flex flex-col gap-2 w-full mt-2">
+        <p-button 
+          (onClick)="addToCart(); $event.stopPropagation()"
+          [loading]="addingToCart"
+          [disabled]="product.stock === 0"
+          label="Agregar al carrito"
+          icon="pi pi-shopping-cart"
+          styleClass="w-full bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+        ></p-button>
+        <p-button 
+          *ngIf="showActions"
+          [loading]="addingToWishlist || removingFromWishlist"
+          (onClick)="handleWishlistClick($event)"
+          [icon]="'pi pi-heart'"
+          [styleClass]="isInWishlist() 
+            ? 'w-full bg-red-600 text-white border border-red-700 hover:bg-red-700 font-bold py-2 px-4 rounded text-base shadow flex items-center justify-center' 
+            : 'w-full bg-white text-red-600 border border-red-500 hover:bg-red-50 font-bold py-2 px-4 rounded text-base shadow flex items-center justify-center'"
+          tooltipPosition="top"
+        ></p-button>
+      </div>
+    </div>
+  </ng-container>
+</p-card>
+ 
