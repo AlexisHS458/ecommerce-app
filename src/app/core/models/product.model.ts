@@ -1,9 +1,4 @@
-export interface Review {
-  userName: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
+import { Review } from "./review.model";
 
 export interface Product {
   id: number;

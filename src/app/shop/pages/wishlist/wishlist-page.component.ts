@@ -11,8 +11,8 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 import { Router } from '@angular/router';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Product } from '../../../core/models/product.model';
-import { WishlistItem } from '../../../core/services/wishlist.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { WishlistItem } from '../../../core/models/wishlist-item.model';
 
 @Component({
   selector: 'app-wishlist-page',

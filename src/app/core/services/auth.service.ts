@@ -8,19 +8,8 @@ import {
   updatePassword as fbUpdatePassword,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Firestore, doc, setDoc, getDoc, updateDoc } from '@angular/fire/firestore';
-
-export interface UserProfile {
-  uid: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  dateOfBirth?: string;
-  gender?: string;
-  newsletter?: boolean;
-  createdAt?: Date | string;
-}
+import { Firestore, doc, setDoc, getDoc, updateDoc, Timestamp } from '@angular/fire/firestore';
+import { UserProfile } from '../models/user-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -107,11 +96,14 @@ export class AuthService {
   async signUpAndSaveProfile(email: string, password: string, profile: UserProfile) {
     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
+    console.log(profile.dateOfBirth);
+    
     await setDoc(doc(this.firestore, `users/${user.uid}`), {
       ...profile,
       uid: user.uid,
       email: user.email,
-      createdAt: new Date()
+      dateOfBirth: profile.dateOfBirth ? Timestamp.fromDate(new Date(profile.dateOfBirth.toDate())) : null,
+      createdAt: Timestamp.fromDate(new Date()),
     });
     await this.fetchUserProfile(user.uid);
     return userCredential;

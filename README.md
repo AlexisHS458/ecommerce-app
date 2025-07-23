@@ -81,13 +81,15 @@ service cloud.firestore {
 - **Signals de Angular:**  
   Se utiliza el sistema de signals de Angular para la gestión reactiva del estado global de la aplicación. Cada servicio singleton (por ejemplo, productos, carrito, usuario, wishlist) expone signals que los componentes pueden consumir directamente.  
   Esto permite una reactividad eficiente y sencilla, sin la complejidad de librerías externas como NgRx o Akita.
-  ```ts
+
+    ```ts
   @Injectable({ providedIn: 'root' })
   export class CartService {
     cartItems = signal<CartItem[]>([]);
     // ...
   }
   ```
+  
 - **Ventajas de signals:**  
   - Reactividad nativa y simple, con bajo boilerplate.
   - Los componentes se actualizan automáticamente cuando cambia el estado.
@@ -103,4 +105,46 @@ service cloud.firestore {
   - `shared/`: Componentes reutilizables (navbar, footer, modal login, etc).
   - `not-found/`: Página 404.
 - **Ruteo avanzado:**  
-  - El archivo `app.routes.ts`
+  - El archivo `app.routes.ts` define las rutas principales y carga el módulo de la tienda (`shop.routes.ts`) de forma lazy, optimizando el performance inicial.
+  - Rutas protegidas con `AuthGuard` para páginas que requieren autenticación, asegurando la seguridad y privacidad de los datos del usuario.
+
+### UI y experiencia de usuario
+
+- **PrimeNG + Tailwind CSS:**  
+  - Se utilizan componentes de [PrimeNG](https://primeng.org/) para una interfaz rica, accesible y profesional.
+  - [Tailwind CSS](https://tailwindcss.com/) se usa para utilidades de diseño responsivo y personalización rápida de estilos.
+- **Componentes Standalone:**  
+  - El proyecto aprovecha los Angular Standalone Components, lo que simplifica la estructura, reduce dependencias y mejora el rendimiento.
+- **Accesibilidad:**  
+  - Se prioriza el uso de componentes accesibles y buenas prácticas de ARIA en formularios y navegación.
+
+### Integración con Firebase
+
+- **AngularFire:**  
+  - Se utiliza AngularFire para la integración con Firebase Auth y Firestore.
+  - El perfil del usuario, carrito y wishlist se almacenan en Firestore bajo la colección `users/{uid}` y sus subcolecciones.
+  - El acceso a los datos está protegido por reglas de seguridad que garantizan que cada usuario solo pueda leer y escribir sus propios datos.
+- **Desnormalización:**  
+  - Los ítems de carrito y wishlist guardan una copia de los datos relevantes del producto para evitar lecturas adicionales y simplificar la UI.
+
+### Buenas prácticas y escalabilidad
+
+- **Desacoplamiento de lógica y presentación:**  
+  - Los servicios gestionan la lógica de negocio y el estado, mientras que los componentes solo se encargan de la presentación y la interacción con el usuario.
+- **Escalabilidad:**  
+  - La arquitectura modular y el uso de signals permiten agregar nuevas funcionalidades o módulos sin afectar el resto de la aplicación.
+- **Testing:**  
+  - La separación de lógica y UI facilita la creación de pruebas unitarias y de integración.
+- **Validaciones robustas:**  
+  - Los formularios implementan validaciones tanto en frontend como en backend (por ejemplo, regex para contraseñas, validación de email, etc).
+- **Gestión de errores:**  
+  - Se muestran mensajes claros y amigables al usuario ante errores de autenticación, red de datos o validaciones.
+
+### Internacionalización
+
+- **i18n:**  
+  - El proyecto soporta internacionalización con archivos de traducción en `src/assets/i18n/`.
+
+## 🗂️ Diagrama Entidad-Relación (ER)
+
+![Diagrama ER](src/assets/diagrama-er.png)

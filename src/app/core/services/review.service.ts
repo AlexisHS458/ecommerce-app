@@ -1,13 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-
-export interface Review {
-  id: number;
-  productId: number;
-  userName: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
+import { Review } from '../models/review.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +10,6 @@ export class ReviewService {
   addReview(review: Omit<Review, 'id' | 'date'>) {
     const newReview: Review = {
       ...review,
-      id: this.reviews().length + 1,
       date: new Date().toISOString().split('T')[0]
     };
     this.reviews.update(reviews => [...reviews, newReview]);

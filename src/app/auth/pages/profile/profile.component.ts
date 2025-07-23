@@ -13,7 +13,8 @@ import { WishlistService } from '../../../core/services/wishlist.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BadgeModule } from 'primeng/badge';
 import { TabsModule } from 'primeng/tabs';
-import { UserProfile } from '../../../core/services/auth.service';
+import { UserProfile } from '../../../core/models/user-profile.model';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-profile',
@@ -53,11 +54,11 @@ export class ProfileComponent {
     lastName: '',
     email: '',
     phone: '',
-    dateOfBirth: '',
+    dateOfBirth: Timestamp.fromDate(new Date()),
     gender: '',
     newsletter: false,
     uid: '',
-    createdAt: '',
+    createdAt: Timestamp.fromDate(new Date()),
   };
 
   // Security form
@@ -78,7 +79,7 @@ export class ProfileComponent {
       this.profileForm.firstName = profile.firstName || '';
       this.profileForm.lastName = profile.lastName || '';
       this.profileForm.phone = profile.phone || '';
-      this.profileForm.dateOfBirth = profile.dateOfBirth || '';
+      this.profileForm.dateOfBirth = profile.dateOfBirth || Timestamp.fromDate(new Date());
       this.profileForm.gender = profile.gender || '';
       this.profileForm.newsletter = profile.newsletter || false;
     }
@@ -100,7 +101,7 @@ export class ProfileComponent {
       lastName: profile?.lastName || '',
       email: user?.email || '',
       phone: profile?.phone || '',
-      dateOfBirth: profile?.dateOfBirth || '',
+      dateOfBirth: profile?.dateOfBirth || Timestamp.fromDate(new Date()),
       gender: profile?.gender || '',
       newsletter: profile?.newsletter || false,
     };

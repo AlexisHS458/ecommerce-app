@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService, CartItem } from '../../../core/services/cart.service';
+import { CartService } from '../../../core/services/cart.service';
+import { CartItem } from '../../../core/models/cart-item.model';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';

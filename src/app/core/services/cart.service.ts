@@ -3,16 +3,7 @@ import { Firestore, collection, doc, setDoc, getDocs, deleteDoc, updateDoc } fro
 import { AuthService } from './auth.service';
 import { Product } from '../models/product.model';
 import { MessageService } from 'primeng/api';
-
-export interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  quantity: number;
-  thumbnail: string;
-  category: string;
-  discountPercentage?: number;
-}
+import { CartItem } from '../models/cart-item.model';
 
 @Injectable({
   providedIn: 'root'

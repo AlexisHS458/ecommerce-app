@@ -3,17 +3,8 @@ import { Firestore, collection, doc, setDoc, getDocs, deleteDoc } from '@angular
 import { AuthService } from './auth.service';
 import { Product } from '../models/product.model';
 import { MessageService } from 'primeng/api';
+import { WishlistItem } from '../models/wishlist-item.model';
 
-export interface WishlistItem {
-  id: number;
-  title: string;
-  price: number;
-  thumbnail: string;
-  category: string;
-  rating: number;
-  stock: number;
-  discountPercentage?: number;
-}
 
 @Injectable({
   providedIn: 'root'

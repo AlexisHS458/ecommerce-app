@@ -1,9 +1,4 @@
-export interface Review {
-  userName: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
+import { Review } from "./review.model";
 
 export interface WishlistItem {
   id: number;
@@ -15,7 +10,6 @@ export interface WishlistItem {
   discountPercentage?: number;
   rating?: number;
   stock?: number;
-  brand?: string;
   images?: string[];
   reviews?: Review[];
 }

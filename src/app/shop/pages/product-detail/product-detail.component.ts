@@ -11,32 +11,11 @@ import { RatingModule } from 'primeng/rating';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CarouselModule } from 'primeng/carousel';
 import { FormsModule } from '@angular/forms';
-import { Pipe, PipeTransform } from '@angular/core';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Product } from '../../../core/models/product.model';
+import { Review } from '../../../core/models/review.model';
 
-@Pipe({ name: 'reviewDate' })
-export class ReviewDatePipe implements PipeTransform {
-  transform(value: string | Date): string {
-    if (!value) return '';
-    const date = typeof value === 'string' ? new Date(value) : value;
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    if (diffDays === 0) return 'hoy';
-    if (diffDays === 1) return 'ayer';
-    if (diffDays < 7) return `hace ${diffDays} días`;
-    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
-}
-
-export interface Review {
-  userName: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
 
 @Component({
   selector: 'app-product-detail',
@@ -52,7 +31,6 @@ export interface Review {
     RatingModule,
     FormsModule,
     InputTextModule,
-    ReviewDatePipe,
     TooltipModule,
   ],
   providers: [MessageService],
@@ -72,7 +50,8 @@ export class ProductDetailComponent implements OnInit {
   newReview = {
     userName: '',
     rating: 5,
-    comment: ''
+    comment: '',
+    reviewerEmail: ''
   };
 
 
@@ -167,13 +146,14 @@ export class ProductDetailComponent implements OnInit {
       this.reviews = [
         ...this.reviews,
         {
-          userName: this.newReview.userName,
+          reviewerName: this.newReview.userName,
+          reviewerEmail: this.newReview.reviewerEmail,
           rating: this.newReview.rating,
           comment: this.newReview.comment,
           date: new Date().toISOString().split('T')[0]
         }
       ];
-      this.newReview = { userName: '', rating: 5, comment: '' };
+      this.newReview = { userName: '', rating: 5, comment: '', reviewerEmail: '' };
       this.showReviewForm = false;
     }
   }

@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { User } from '@angular/fire/auth';
-import { UserProfile } from '../../../core/services/auth.service';
+import { UserProfile } from '../../../core/models/user-profile.model';
 
 @Component({
   selector: 'app-user-menu',

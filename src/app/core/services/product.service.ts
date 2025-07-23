@@ -4,13 +4,8 @@ import { Product } from '../models/product.model';
 import { MessageService } from 'primeng/api';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Category } from '../models/category.model';
 
-export interface Category {
-  slug: string;
-  name: string;
-  url: string;
-  icon: string;
-}
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -71,16 +66,15 @@ export class ProductService {
     order?: string;
   } = {}) {
     this.loading.set(true);
-    let url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+    let url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews
+    `;
     if (category) {
-      url = `https://dummyjson.com/products/category/${encodeURIComponent(
-        category
-      )}?limit=${limit}&skip=${skip}`;
+      url = `https://dummyjson.com/products/category/${encodeURIComponent(category)}?limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews
+    `;
     }
     if (search) {
-      url = `https://dummyjson.com/products/search?q=${encodeURIComponent(
-        search
-      )}&limit=${limit}&skip=${skip}`;
+      url = `https://dummyjson.com/products/search?q=${encodeURIComponent(search)}&limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews
+    `;
     }
     // Agregar ordenamiento si está presente y soportado
     if (sortBy) {
@@ -150,16 +144,21 @@ export class ProductService {
   }
 
   getProductById(id: number | string) {
-    return this.http.get<Product>(`https://dummyjson.com/products/${id}`).pipe(
-      catchError((error) => {
-        console.error('Error fetching product by ID:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo cargar el producto. Intenta de nuevo más tarde.',
-        });
-        return throwError(() => error);
-      })
-    );
+    return this.http
+      .get<Product>(
+        `https://dummyjson.com/products/${id}?select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching product by ID:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail:
+              'No se pudo cargar el producto. Intenta de nuevo más tarde.',
+          });
+          return throwError(() => error);
+        })
+      );
   }
 }

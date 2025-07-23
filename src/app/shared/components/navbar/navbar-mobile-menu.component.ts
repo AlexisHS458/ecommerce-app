@@ -8,7 +8,7 @@ import { User } from '@angular/fire/auth';
 import { CartService } from '../../../core/services/cart.service';
 import { WishlistService } from '../../../core/services/wishlist.service';
 import { inject } from '@angular/core';
-import { Category } from '../../../core/services/product.service';
+import { Category } from '../../../core/models/category.model';
 
 @Component({
   selector: 'app-navbar-mobile-menu',

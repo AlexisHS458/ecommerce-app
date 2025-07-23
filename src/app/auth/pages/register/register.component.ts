@@ -6,6 +6,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../../core/services/auth.service';
+import { Timestamp } from 'firebase/firestore';
+import { UserProfile } from '../../../core/models/user-profile.model';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +17,9 @@ import { AuthService } from '../../../core/services/auth.service';
     FormsModule,
     ButtonModule,
     InputTextModule,
-    CardModule
+    CardModule,
   ],
-  standalone: true
+  standalone: true,
 })
 export class RegisterComponent {
   // Personal Information
@@ -26,16 +28,16 @@ export class RegisterComponent {
   email = '';
   phone = '';
   dateOfBirth: Date | null = null;
-  
+
   // Account Information
   password = '';
   confirmPassword = '';
-  
+
   // Additional Information
   gender = '';
   newsletter = false;
   termsAccepted = false;
-  
+
   // UI State
   error = '';
   loading = false;
@@ -46,9 +48,11 @@ export class RegisterComponent {
     { label: 'Masculino', value: 'male' },
     { label: 'Femenino', value: 'female' },
     { label: 'No binario', value: 'non-binary' },
-    { label: 'Prefiero no decir', value: 'prefer-not-to-say' }
+    { label: 'Prefiero no decir', value: 'prefer-not-to-say' },
   ];
 
+  showPassword = false;
+  showConfirmPassword = false;
 
   authService = inject(AuthService);
   router = inject(Router);
@@ -64,22 +68,32 @@ export class RegisterComponent {
 
     try {
       // Create user profile data
+      //1999-07-07
       const userProfile = {
         firstName: this.firstName,
         lastName: this.lastName,
         phone: this.phone,
-        dateOfBirth: this.dateOfBirth ? this.dateOfBirth.toISOString().split('T')[0] : undefined,
+        dateOfBirth: this.dateOfBirth
+          ? Timestamp.fromDate(new Date(this.dateOfBirth))
+          : null,
         gender: this.gender,
         newsletter: this.newsletter,
         email: this.email,
-        uid: ''       
-      };
+        uid: '',
+      } as UserProfile;
 
       // Register with Firebase and save profile in Firestore
-      await this.authService.signUpAndSaveProfile(this.email, this.password, userProfile);
+      await this.authService.signUpAndSaveProfile(
+        this.email,
+        this.password,
+        userProfile
+      );
       this.router.navigate(['/']);
     } catch (error: unknown) {
-      const errorMsg = (error && typeof error === 'object' && 'message' in error) ? (error as Error).message : 'Error al registrar usuario';
+      const errorMsg =
+        error && typeof error === 'object' && 'message' in error
+          ? (error as Error).message
+          : 'Error al registrar usuario';
       this.error = errorMsg;
     } finally {
       this.loading = false;
@@ -88,7 +102,13 @@ export class RegisterComponent {
 
   validateForm(): boolean {
     // Required fields
-    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+    if (
+      !this.firstName ||
+      !this.lastName ||
+      !this.email ||
+      !this.password ||
+      !this.confirmPassword
+    ) {
       this.error = 'Por favor completa todos los campos obligatorios';
       return false;
     }
@@ -101,11 +121,11 @@ export class RegisterComponent {
     }
 
     // Password validation
-    if (this.password.length < 6) {
-      this.error = 'La contraseña debe tener al menos 6 caracteres';
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    if (!passwordRegex.test(this.password)) {
+      this.error = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
       return false;
     }
-
     if (this.password !== this.confirmPassword) {
       this.error = 'Las contraseñas no coinciden';
       return false;
@@ -130,4 +150,4 @@ export class RegisterComponent {
   goToLogin() {
     this.router.navigate(['/login']);
   }
-} 
+}
