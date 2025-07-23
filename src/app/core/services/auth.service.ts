@@ -49,18 +49,64 @@ export class AuthService {
   firestore = inject(Firestore);
 
   async signIn(email: string, password: string) {
-    return signInWithEmailAndPassword(this.auth, email, password);
+    try {
+      return await signInWithEmailAndPassword(this.auth, email, password);
+    } catch (error: unknown) {
+      let message = 'Ocurrió un error al iniciar sesión.';
+      if (typeof error === 'object' && error !== null && 'code' in error) {
+        const code = (error as { code: string }).code;
+        switch (code) {
+          case 'auth/user-not-found':
+            message = 'No existe una cuenta con ese correo.';
+            break;
+          case 'auth/wrong-password':
+            message = 'La contraseña es incorrecta.';
+            break;
+          case 'auth/invalid-email':
+            message = 'El correo electrónico no es válido.';
+            break;
+          case 'auth/too-many-requests':
+            message = 'Demasiados intentos fallidos. Intenta más tarde.';
+            break;
+          case 'auth/user-disabled':
+            message = 'La cuenta ha sido deshabilitada.';
+            break;
+          default:
+            message = 'Error: ' + ((error as { message?: string }).message || code);
+        }
+      }
+      throw new Error(message);
+    }
   }
 
   async signUp(email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password);
+    try {
+      return await createUserWithEmailAndPassword(this.auth, email, password);
+    } catch (error: unknown) {
+      let message = 'Ocurrió un error al registrar la cuenta.';
+      if (typeof error === 'object' && error !== null && 'code' in error) {
+        const code = (error as { code: string }).code;
+        switch (code) {
+          case 'auth/email-already-in-use':
+            message = 'El correo ya está registrado.';
+            break;
+          case 'auth/invalid-email':
+            message = 'El correo electrónico no es válido.';
+            break;
+          case 'auth/weak-password':
+            message = 'La contraseña es demasiado débil.';
+            break;
+          default:
+            message = 'Error: ' + ((error as { message?: string }).message || code);
+        }
+      }
+      throw new Error(message);
+    }
   }
 
   async signUpAndSaveProfile(email: string, password: string, profile: UserProfile) {
     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
-    // Guarda datos adicionales en Firestore
-    // Avoid duplicate uid and email fields by spreading profile first, then overriding with correct values
     await setDoc(doc(this.firestore, `users/${user.uid}`), {
       ...profile,
       uid: user.uid,
