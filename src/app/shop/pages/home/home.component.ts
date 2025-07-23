@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.productService.fetchProducts({ limit: 90 });
-    this.productService.getCategories();
+   // this.productService.getCategories();
     this.isMobile = window.innerWidth < 768;
     if (this.isMobile) {
       this.showCategoriesCarousel = true;

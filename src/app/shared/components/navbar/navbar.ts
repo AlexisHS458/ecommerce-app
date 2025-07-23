@@ -83,7 +83,7 @@ export class NavbarComponent {
   constructor(
   ) {
     // Cargar categorías al inicializar
-    this.productService.getCategories();
+    //this.productService.getCategories();
     // Cierra el buscador mobile en cualquier navegación
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {

@@ -97,7 +97,7 @@ export class ProductsComponent implements OnInit {
   authService = inject(AuthService);
 
   ngOnInit() {
-    this.productService.getCategories();
+    //this.productService.getCategories();
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['search'] || '';
       this.selectedCategory = params['category'] || '';

@@ -119,7 +119,6 @@ export class ProductService {
       >('https://dummyjson.com/products/categories')
       .subscribe({
         next: (response) => {
-          console.log('API categories:', response);
           // Agrega el icono SVG a cada categoría
           const categoriesWithIcon = response.map((category) => ({
             ...category,

@@ -96,8 +96,6 @@ export class AuthService {
   async signUpAndSaveProfile(email: string, password: string, profile: UserProfile) {
     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
-    console.log(profile.dateOfBirth);
-    
     await setDoc(doc(this.firestore, `users/${user.uid}`), {
       ...profile,
       uid: user.uid,

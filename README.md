@@ -80,7 +80,7 @@ service cloud.firestore {
 
 - **Signals de Angular:**  
   Se utiliza el sistema de signals de Angular para la gestión reactiva del estado global de la aplicación. Cada servicio singleton (por ejemplo, productos, carrito, usuario, wishlist) expone signals que los componentes pueden consumir directamente.  
-  Esto permite una reactividad eficiente y sencilla, sin la complejidad de librerías externas como NgRx o Akita.
+  Esto permite una reactividad eficiente y sencilla.
 
     ```ts
   @Injectable({ providedIn: 'root' })
@@ -89,11 +89,10 @@ service cloud.firestore {
     // ...
   }
   ```
-  
+
 - **Ventajas de signals:**  
   - Reactividad nativa y simple, con bajo boilerplate.
   - Los componentes se actualizan automáticamente cuando cambia el estado.
-  - Facilita la escalabilidad y el testing, ya que los servicios gestionan la lógica y los componentes solo consumen el estado.
 
 ### Estructura y modularidad
 
@@ -115,8 +114,6 @@ service cloud.firestore {
   - [Tailwind CSS](https://tailwindcss.com/) se usa para utilidades de diseño responsivo y personalización rápida de estilos.
 - **Componentes Standalone:**  
   - El proyecto aprovecha los Angular Standalone Components, lo que simplifica la estructura, reduce dependencias y mejora el rendimiento.
-- **Accesibilidad:**  
-  - Se prioriza el uso de componentes accesibles y buenas prácticas de ARIA en formularios y navegación.
 
 ### Integración con Firebase
 
@@ -131,19 +128,10 @@ service cloud.firestore {
 
 - **Desacoplamiento de lógica y presentación:**  
   - Los servicios gestionan la lógica de negocio y el estado, mientras que los componentes solo se encargan de la presentación y la interacción con el usuario.
-- **Escalabilidad:**  
-  - La arquitectura modular y el uso de signals permiten agregar nuevas funcionalidades o módulos sin afectar el resto de la aplicación.
-- **Testing:**  
-  - La separación de lógica y UI facilita la creación de pruebas unitarias y de integración.
 - **Validaciones robustas:**  
   - Los formularios implementan validaciones tanto en frontend como en backend (por ejemplo, regex para contraseñas, validación de email, etc).
 - **Gestión de errores:**  
-  - Se muestran mensajes claros y amigables al usuario ante errores de autenticación, red de datos o validaciones.
-
-### Internacionalización
-
-- **i18n:**  
-  - El proyecto soporta internacionalización con archivos de traducción en `src/assets/i18n/`.
+  - Se muestran mensajes claros y amigables al usuario ante errores de autenticación.
 
 ## 🗂️ Diagrama Entidad-Relación (ER)
 
