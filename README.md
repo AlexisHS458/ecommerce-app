@@ -202,3 +202,18 @@ src/
 - Los componentes en `shared/` y `shop/components/` son reutilizables en varias páginas.
 - El ruteo principal está en `app.routes.ts` y delega a rutas de módulos como `shop.routes.ts`.
 - Los archivos de entorno y configuración (`environments/`, `firebase.json`, etc) no deben subirse a git salvo los de ejemplo.
+
+---
+
+## ⚠️ Configuración de entorno local
+
+El archivo `environments/enviroments.example.ts` sirve como plantilla para la configuración de entorno de Firebase y otros servicios. **No subas tus credenciales reales al repositorio.**
+
+1. Copia el archivo de ejemplo:
+   ```bash
+   cp environments/enviroments.example.ts environments/enviroments.ts
+   ```
+2. Rellena los valores con tus credenciales de Firebase y otros datos necesarios.
+3. Usa este archivo para desarrollo local. El archivo real `enviroments.ts` está ignorado por git para proteger tus datos sensibles.
+
+---
