@@ -79,7 +79,6 @@ export class CartService {
     try {
       const cartRef = doc(this.firestore, `users/${user.uid}/cart/${productId}`);
       await deleteDoc(cartRef);
-      // Actualiza el array localmente sin fetchCart
       this.cartItems.set(this.cartItems()?.filter(item => item.id !== productId));
       this.messageService.add({severity:'info', summary:'Producto eliminado', detail:'El producto fue eliminado del carrito.'});
     } catch {

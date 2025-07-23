@@ -128,7 +128,6 @@ export class NavbarComponent {
   }
 
   get profileLoading(): boolean {
-    // Si hay usuario pero el perfil aún no está cargado
     return !!this.authService.user() && !this.authService.userProfile();
   }
 

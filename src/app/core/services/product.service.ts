@@ -1,6 +1,9 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
+import { MessageService } from 'primeng/api';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 export interface Category {
   slug: string;
@@ -17,6 +20,7 @@ export class ProductService {
   loading = signal<boolean>(false);
 
   private http = inject(HttpClient);
+  private messageService = inject(MessageService);
 
   // Mapa de iconos PrimeNG por slug
   private categoryIcons: Record<string, string> = {
@@ -97,6 +101,11 @@ export class ProductService {
         this.products.set([]);
         this.totalProducts.set(0);
         this.loading.set(false);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar los productos. Intenta de nuevo más tarde.'
+        });
       },
     });
   }
@@ -123,11 +132,26 @@ export class ProductService {
         error: (error) => {
           console.error('Error fetching categories:', error);
           this.categories.set([]);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudieron cargar las categorías. Intenta de nuevo más tarde.'
+          });
         },
       });
   }
 
   getProductById(id: number | string) {
-    return this.http.get<Product>(`https://dummyjson.com/products/${id}`);
+    return this.http.get<Product>(`https://dummyjson.com/products/${id}`).pipe(
+      catchError((error) => {
+        console.error('Error fetching product by ID:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo cargar el producto. Intenta de nuevo más tarde.'
+        });
+        return throwError(() => error);
+      })
+    );
   }
 }

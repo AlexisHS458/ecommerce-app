@@ -64,13 +64,13 @@
         <div class="flex flex-wrap items-center gap-4 mb-2">
           <div class="flex items-center gap-2">
             <p-rating
-              [ngModel]="averageRating"
+              [ngModel]="product.rating"
               [readonly]="true"
               [stars]="5"
               styleClass="text-2xl text-blue-600"
             ></p-rating>
             <span class="text-gray-700 font-semibold"
-              >{{ averageRating }} estrellas</span
+              >{{ product.rating ?? 0 }} estrellas</span
             >
             <span class="text-gray-400 ml-2">({{ reviewCount }} reviews)</span>
           </div>

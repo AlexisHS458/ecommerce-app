@@ -32,9 +32,7 @@ export class ProductCardComponent {
   @Input() addingToWishlist = false;
   @Input() addingToCart = false;
   @Input() removingFromWishlist = false;
-  
-  // Hacer Math disponible en el template
-  Math = Math;
+
   
   @Output() addToCartClick = new EventEmitter<Product>();
   @Output() addToWishlistClick = new EventEmitter<Product>();
@@ -77,12 +75,6 @@ export class ProductCardComponent {
 
   getDiscountPrice(price: number, discountPercentage: number): number {
     return price * (1 - (discountPercentage || 0) / 100);
-  }
-
-  getStars(rating: number): boolean[] {
-    // Limitar el rating a un máximo de 5
-    const limitedRating = Math.min(Math.max(rating, 0), 5);
-    return Array.from({ length: 5 }, (_, i) => i < limitedRating);
   }
 
   onImageError(event: Event): void {

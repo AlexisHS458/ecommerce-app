@@ -196,13 +196,7 @@ export class ProductsComponent implements OnInit {
   }
 
   updateUrlParams() {
-    const params: Record<string, unknown> = {};
-    console.log(this.searchQuery);
-    console.log(this.selectedCategory);
-    console.log(this.currentPage);
-    console.log(this.itemsPerPage);
-    console.log(this.sortBy);
-    
+    const params: Record<string, unknown> = {};    
     if (this.searchQuery){
       params['search'] = this.searchQuery;
     } else {
@@ -296,12 +290,6 @@ export class ProductsComponent implements OnInit {
     if (!discountPercentage) return price;
     return price - (price * discountPercentage / 100);
   }
-
-  getStars(rating: number): number[] {
-    return Array(Math.min(Math.floor(rating), 5)).fill(0);
-  }
-
-  Math = Math;
 
   getSortedProducts() {
     return this.productService.products();

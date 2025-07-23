@@ -153,12 +153,6 @@ export class ProductDetailComponent implements OnInit {
     return images;
   }
 
-  get averageRating() {
-    if (!this.product || !this.reviews.length) return 0;
-    const total = this.reviews.reduce((sum, r) => sum + (r.rating || 0), 0);
-    return Math.round((total / this.reviews.length) * 10) / 10;
-  }
-
   get reviewCount() {
     return this.reviews.length;
   }
