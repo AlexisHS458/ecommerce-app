@@ -1,7 +1,5 @@
 # Ecommerce Angular App
 
-[![Ver demo](https://img.shields.io/badge/Ver%20Demo%20en%20Producción-Click%20Aquí-brightgreen?style=for-the-badge)](https://ecommerce-prueba-bambu.web.app/)
-
 URL de la app: https://ecommerce-prueba-bambu.web.app/
 
 ## 🚀 Cómo ejecutar el proyecto localmente
