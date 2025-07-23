@@ -18,6 +18,7 @@ export class ProductService {
   categories = signal<Category[]>([]);
   totalProducts = signal<number>(0);
   loading = signal<boolean>(false);
+  loadingCategories = signal<boolean>(false);
 
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
@@ -104,13 +105,16 @@ export class ProductService {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los productos. Intenta de nuevo más tarde.'
+          detail:
+            'No se pudieron cargar los productos. Intenta de nuevo más tarde.',
         });
       },
     });
   }
 
   getCategories() {
+    if (this.categories().length > 0) return;
+    this.loadingCategories.set(true);
     this.http
       .get<
         {
@@ -123,9 +127,9 @@ export class ProductService {
         next: (response) => {
           console.log('API categories:', response);
           // Agrega el icono SVG a cada categoría
-          const categoriesWithIcon = response.map(category => ({
+          const categoriesWithIcon = response.map((category) => ({
             ...category,
-            icon: this.getCategoryIcon(category.slug)
+            icon: this.getCategoryIcon(category.slug),
           }));
           this.categories.set(categoriesWithIcon);
         },
@@ -135,8 +139,12 @@ export class ProductService {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'No se pudieron cargar las categorías. Intenta de nuevo más tarde.'
+            detail:
+              'No se pudieron cargar las categorías. Intenta de nuevo más tarde.',
           });
+        },
+        complete: () => {
+          this.loadingCategories.set(false);
         },
       });
   }
@@ -148,7 +156,7 @@ export class ProductService {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo cargar el producto. Intenta de nuevo más tarde.'
+          detail: 'No se pudo cargar el producto. Intenta de nuevo más tarde.',
         });
         return throwError(() => error);
       })

@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   isMobile = false;
 
   ngOnInit() {
-    this.productService.fetchProducts({ limit: 100 });
+    this.productService.fetchProducts({ limit: 90 });
     this.productService.getCategories();
     this.isMobile = window.innerWidth < 768;
     if (this.isMobile) {

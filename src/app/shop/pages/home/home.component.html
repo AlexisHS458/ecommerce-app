@@ -4,7 +4,7 @@
     <ng-container *ngIf="showCategoriesCarousel">
       <app-home-categories-carousel
         [categories]="productService.categories()"
-        [loading]="productService.loading()"
+        [loading]="productService.loadingCategories()"
         (viewCategory)="viewCategory($event)"
       ></app-home-categories-carousel>
     </ng-container>

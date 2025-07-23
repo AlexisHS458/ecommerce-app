@@ -59,7 +59,7 @@ export class AuthService {
           case 'auth/user-not-found':
             message = 'No existe una cuenta con ese correo.';
             break;
-          case 'auth/wrong-password':
+          case 'auth/invalid-credential':
             message = 'La contraseña es incorrecta.';
             break;
           case 'auth/invalid-email':
