@@ -35,19 +35,14 @@
           <label for="password" class="block text-sm font-medium text-blue-700 mb-2">
             Contraseña
           </label>
-          <div class="relative">
-            <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
-            <input
-              pInputText
-              [(ngModel)]="password"
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              class="w-full pl-10 pr-4 py-3"
-              [disabled]="loading"
-              required
-            />
-          </div>
+          <app-password-input
+            [(ngModel)]="password"
+            name="password"
+            id="password"
+            placeholder="Contraseña"
+            [disabled]="!!loading"
+            [required]="true"
+          ></app-password-input>
         </div>
 
         <!-- Error Message -->

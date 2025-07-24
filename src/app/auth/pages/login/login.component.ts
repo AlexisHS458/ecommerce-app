@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../../core/services/auth.service';
+import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ import { AuthService } from '../../../core/services/auth.service';
     ButtonModule,
     InputTextModule,
     CardModule,
-    RouterLink
+    RouterLink,
+    PasswordInputComponent
   ],
   standalone: true
 })

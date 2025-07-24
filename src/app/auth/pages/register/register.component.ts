@@ -8,6 +8,7 @@ import { CardModule } from 'primeng/card';
 import { AuthService } from '../../../core/services/auth.service';
 import { Timestamp } from 'firebase/firestore';
 import { UserProfile } from '../../../core/models/user-profile.model';
+import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,8 @@ import { UserProfile } from '../../../core/models/user-profile.model';
     ButtonModule,
     InputTextModule,
     CardModule,
-    RouterLink
+    RouterLink,
+    PasswordInputComponent
   ],
   standalone: true,
 })
@@ -91,6 +93,8 @@ export class RegisterComponent {
       );
       this.router.navigate(['/']);
     } catch (error: unknown) {
+      console.log('error', error);
+
       const errorMsg =
         error && typeof error === 'object' && 'message' in error
           ? (error as Error).message

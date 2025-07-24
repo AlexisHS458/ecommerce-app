@@ -68,10 +68,21 @@ export class AuthService {
     }
   }
 
-  async signUp(email: string, password: string) {
+
+  async signUpAndSaveProfile(email: string, password: string, profile: UserProfile) {
     try {
-      return await createUserWithEmailAndPassword(this.auth, email, password);
-    } catch (error: unknown) {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const user = userCredential.user;
+      await setDoc(doc(this.firestore, `users/${user.uid}`), {
+        ...profile,
+        uid: user.uid,
+        email: user.email,
+        dateOfBirth: profile.dateOfBirth ? Timestamp.fromDate(new Date(profile.dateOfBirth.toDate())) : null,
+        createdAt: Timestamp.fromDate(new Date()),
+      });
+      await this.fetchUserProfile(user.uid);
+      return userCredential;
+    } catch (error) {
       let message = 'Ocurrió un error al registrar la cuenta.';
       if (typeof error === 'object' && error !== null && 'code' in error) {
         const code = (error as { code: string }).code;
@@ -91,20 +102,6 @@ export class AuthService {
       }
       throw new Error(message);
     }
-  }
-
-  async signUpAndSaveProfile(email: string, password: string, profile: UserProfile) {
-    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-    const user = userCredential.user;
-    await setDoc(doc(this.firestore, `users/${user.uid}`), {
-      ...profile,
-      uid: user.uid,
-      email: user.email,
-      dateOfBirth: profile.dateOfBirth ? Timestamp.fromDate(new Date(profile.dateOfBirth.toDate())) : null,
-      createdAt: Timestamp.fromDate(new Date()),
-    });
-    await this.fetchUserProfile(user.uid);
-    return userCredential;
   }
 
   async fetchUserProfile(uid: string) {

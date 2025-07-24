@@ -15,6 +15,7 @@ import { BadgeModule } from 'primeng/badge';
 import { TabsModule } from 'primeng/tabs';
 import { UserProfile } from '../../../core/models/user-profile.model';
 import { Timestamp } from 'firebase/firestore';
+import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
 
 @Component({
   selector: 'app-profile',
@@ -30,6 +31,7 @@ import { Timestamp } from 'firebase/firestore';
     ProgressSpinnerModule,
     BadgeModule,
     TabsModule,
+    PasswordInputComponent
   ],
   standalone: true,
 })
@@ -71,6 +73,10 @@ export class ProfileComponent {
   loading = false;
   message = '';
   messageType: 'success' | 'error' = 'success';
+
+  showCurrentPassword = false;
+  showNewPassword = false;
+  showConfirmPassword = false;
 
   // Declara el effect como campo de clase
   readonly profileEffect = effect(() => {

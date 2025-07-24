@@ -134,44 +134,24 @@
             <!-- Password -->
             <div class="mb-4">
               <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
-              <div class="relative">
-                <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
-                <input
-                  id="password"
-                  name="password"
-                  pInputText
-                  [(ngModel)]="password"
-                  [ngModelOptions]="{standalone: true}"
-                  [type]="showPassword ? 'text' : 'password'"
-                  class="w-full pl-10 pr-4 py-3"
-                  placeholder="Contraseña"
-                  required
-                />
-                <button type="button" (click)="showPassword = !showPassword" class="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 focus:outline-none">
-                  <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
-                </button>
-              </div>
+              <app-password-input
+                [(ngModel)]="password"
+                name="password"
+                id="password"
+                placeholder="Contraseña"
+                [required]="true"
+              ></app-password-input>
             </div>
             <!-- Confirm Password -->
             <div class="mb-4">
               <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirmar Contraseña</label>
-              <div class="relative">
-                <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300"></i>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  pInputText
-                  [(ngModel)]="confirmPassword"
-                  [ngModelOptions]="{standalone: true}"
-                  [type]="showConfirmPassword ? 'text' : 'password'"
-                  class="w-full pl-10 pr-4 py-3"
-                  placeholder="Confirmar contraseña"
-                  required
-                />
-                <button type="button" (click)="showConfirmPassword = !showConfirmPassword" class="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 focus:outline-none">
-                  <i class="pi" [ngClass]="showConfirmPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
-                </button>
-              </div>
+              <app-password-input
+                [(ngModel)]="confirmPassword"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Confirmar contraseña"
+                [required]="true"
+              ></app-password-input>
             </div>
           </div>
         </div>
