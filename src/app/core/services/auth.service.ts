@@ -6,6 +6,7 @@ import {
   signOut,
   User,
   updatePassword as fbUpdatePassword,
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Firestore, doc, setDoc, getDoc, updateDoc, Timestamp } from '@angular/fire/firestore';
@@ -127,6 +128,28 @@ export class AuthService {
     await signInWithEmailAndPassword(this.auth, user.email, currentPassword);
     // Cambiar contraseña
     await fbUpdatePassword(user, newPassword);
+  }
+
+  async resetPassword(email: string) {
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+    } catch (error: unknown) {
+      let message = 'Ocurrió un error al enviar el correo de recuperación.';
+      if (typeof error === 'object' && error !== null && 'code' in error) {
+        const code = (error as { code: string }).code;
+        switch (code) {
+          case 'auth/user-not-found':
+            message = 'No existe una cuenta con ese correo.';
+            break;
+          case 'auth/invalid-email':
+            message = 'El correo electrónico no es válido.';
+            break;
+          default:
+            message = 'Error: ' + ((error as { message?: string }).message || code);
+        }
+      }
+      throw new Error(message);
+    }
   }
 
   async signOut() {

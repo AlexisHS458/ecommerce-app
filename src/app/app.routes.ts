@@ -14,5 +14,7 @@ export const routes: Routes = [
     { path: 'profile', canActivate: [AuthGuard], component: ProfileComponent },
     { path: 'wishlist', canActivate: [AuthGuard], loadComponent: () => import('./shop/pages/wishlist/wishlist-page.component').then(m => m.WishlistPageComponent) },
     { path: 'cart', canActivate: [AuthGuard], loadComponent: () => import('./shop/pages/cart/cart-page.component').then(m => m.CartPageComponent) },
+    { path: 'forgot-password', loadComponent: () => import('./auth/pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent) },
+    { path: 'reset-password', loadComponent: () => import('./auth/pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
     { path: '**', component: NotFoundComponent }
 ];

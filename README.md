@@ -51,36 +51,52 @@ npm install
 
 ---
 
-### 2.3 Configurar variables de entorno
+### 2.3 Configurar variables de entorno (environments)
 
-1. Copia el archivo de ejemplo:
-   ```bash
-   cp environments/enviroments.example.ts environments/enviroments.ts
-   ```
-2. Abre `environments/enviroments.ts` y reemplaza los valores de ejemplo por los de tu proyecto de Firebase y la URL de la API:
+Angular usa archivos de environment para separar la configuración de desarrollo y producción.
+
+1. **Archivos de environment:**
+   - `src/environments/environment.ts` (desarrollo)
+   - `src/environments/environment.prod.ts` (producción)
+
+2. **Ejemplo de environment de desarrollo (`environment.ts`):**
    ```ts
    export const environment = {
      production: false,
      firebaseConfig: {
-       apiKey: "<TU_API_KEY>",
-       authDomain: "<TU_PROJECT_ID>.firebaseapp.com",
-       projectId: "<TU_PROJECT_ID>",
-       storageBucket: "<TU_PROJECT_ID>.appspot.com",
-       messagingSenderId: "<TU_MESSAGING_SENDER_ID>",
-       appId: "<TU_APP_ID>"
+       apiKey: "<API_KEY_DEV>",
+       authDomain: "<PROJECT_ID_DEV>.firebaseapp.com",
+       projectId: "<PROJECT_ID_DEV>",
+       storageBucket: "<PROJECT_ID_DEV>.appspot.com",
+       messagingSenderId: "<SENDER_ID_DEV>",
+       appId: "<APP_ID_DEV>"
      },
-     apiUrl: "https://dummyjson.com" // URL base para la API de productos y datos de prueba
+     apiUrl: "https://dummyjson.com"
    };
    ```
-   > **Nota:** En este caso, la variable `apiUrl` debe ser exactamente:  
-   > `https://dummyjson.com`  
-   > Más información sobre esta API en [DummyJSON](https://dummyjson.com).
 
-3. El archivo `.gitignore` ya está configurado para ignorar los archivos reales de entorno y solo versionar el de ejemplo:
+3. **Ejemplo de environment de producción (`environment.prod.ts`):**
+   ```ts
+   export const environment = {
+     production: true,
+     firebaseConfig: {
+       apiKey: "<API_KEY_PROD>",
+       authDomain: "<PROJECT_ID_PROD>.firebaseapp.com",
+       projectId: "<PROJECT_ID_PROD>",
+       storageBucket: "<PROJECT_ID_PROD>.appspot.com",
+       messagingSenderId: "<SENDER_ID_PROD>",
+       appId: "<APP_ID_PROD>"
+     },
+     apiUrl: "https://dummyjson.com"
+   };
    ```
-   environments/*.ts
-   !environments/enviroments.example.ts
-   ```
+
+4. **Angular selecciona el environment automáticamente:**
+   - `ng serve` y `ng build` usan `environment.ts` (desarrollo).
+   - `ng build --configuration production` usa `environment.prod.ts` (producción).
+
+5. **No subas tus archivos reales de environment a git.**
+   - El `.gitignore` ya está configurado para ignorarlos.
 
 ---
 
@@ -129,53 +145,69 @@ service cloud.firestore {
 
 ---
 
-## 5. Deploy a Firebase Hosting
+## 5. Deploy a Firebase Hosting (multi-ambiente)
 
-Sigue estos pasos para desplegar la aplicación en Firebase Hosting:
+Este proyecto está preparado para deployar a dos ambientes de Firebase Hosting:
+- **Desarrollo:** Proyecto de Firebase para pruebas/dev
+- **Producción:** Proyecto de Firebase para usuarios finales
 
-### 5.1 Instala Firebase CLI (si no la tienes)
+### 5.1 Configura los proyectos de Firebase
 
-```bash
-npm install -g firebase-tools
+1. Crea dos proyectos en [Firebase Console](https://console.firebase.google.com/): uno para dev y otro para prod.
+2. Asócialos con alias usando:
+   ```bash
+   firebase use --add
+   ```
+   - Alias recomendados: `dev` y `prod`.
+   - El archivo `.firebaserc` debe verse así:
+     ```json
+     {
+       "projects": {
+         "dev": "<ID_PROYECTO_DEV>",
+         "prod": "<ID_PROYECTO_PROD>"
+       }
+     }
+     ```
+
+### 5.2 Comandos de build y deploy
+
+Agrega estos scripts en tu `package.json`:
+
+```json
+"scripts": {
+  "deploy:dev": "ng build && firebase deploy --only hosting --project dev",
+  "deploy:prod": "ng build --configuration production && firebase deploy --only hosting --project prod"
+}
 ```
 
----
+- `npm run deploy:dev`: Build con environment de desarrollo y deploy al proyecto de Firebase dev.
+- `npm run deploy:prod`: Build con environment de producción y deploy al proyecto de Firebase prod.
 
-### 5.2 Inicia sesión en Firebase
+### 5.3 Flujo recomendado
 
-```bash
-firebase login
-```
+- **Desarrollo local:**
+  ```bash
+  npm start
+  # o
+  ng serve
+  ```
+  Usa el environment de desarrollo.
 
----
+- **Deploy a desarrollo:**
+  ```bash
+  npm run deploy:dev
+  ```
+  Sube el build de dev al sitio de Firebase dev.
 
-### 5.3 Inicializa Firebase Hosting (solo la primera vez)
+- **Deploy a producción:**
+  ```bash
+  npm run deploy:prod
+  ```
+  Sube el build de prod al sitio de Firebase prod.
 
-```bash
-firebase init
-```
-- Selecciona **Hosting** y sigue los pasos.
-- Elige el proyecto de Firebase correspondiente.
-- Como carpeta pública, selecciona `dist/ecommerce-app/browser` (o la carpeta de build que corresponda).
-- Configura como aplicación de una sola página (SPA): responde "Sí" a la pregunta sobre `index.html`.
+### 5.4 Verifica el environment en cada deploy
 
----
-
-### 5.4 Genera el build de producción de Angular
-
-```bash
-ng build --configuration=production
-```
-Esto generará los archivos en la carpeta `dist/ecommerce-app`.
-
----
-
-### 5.5 Haz deploy a Firebase Hosting
-
-```bash
-firebase deploy
-```
-¡Listo! Tu aplicación estará disponible en la URL de Firebase Hosting que te indique la consola.
+Puedes agregar un `console.log(environment)` en tu app para verificar que el sitio de dev usa el environment de dev y el de prod el de prod.
 
 ---
 
@@ -232,3 +264,27 @@ firebase deploy
 ## 7. Diagrama Entidad-Relación (ER)
 
 ![Diagrama ER](src/assets/diagrama-er.png)
+
+---
+
+## 8. Guía de comandos y cuándo usarlos
+
+Aquí tienes una guía práctica de **cuándo usar cada comando** en tu flujo de trabajo:
+
+| ¿Qué quieres hacer?                  | Comando                | ¿Cuándo usarlo?                        |
+|--------------------------------------|------------------------|----------------------------------------|
+| Desarrollar localmente               | `npm start`            | Siempre que estés programando          |
+| Build de desarrollo (opcional)       | `npm run build`        | Pruebas locales de build               |
+| Build de producción (opcional)       | `npm run build:prod`   | Antes de deploy a prod o pruebas prod  |
+| Deploy a Firebase (desarrollo)       | `npm run deploy:dev`   | Publicar avances/pruebas en dev        |
+| Deploy a Firebase (producción)       | `npm run deploy:prod`  | Publicar versión final a usuarios      |
+
+### Explicación rápida
+
+- **`npm start`**: Levanta la app en modo desarrollo. Úsalo siempre que estés programando.
+- **`npm run build`**: Genera el build usando el environment de desarrollo. Útil para pruebas locales del build.
+- **`npm run build:prod`**: Genera el build usando el environment de producción. Útil para probar la app como si estuviera en producción.
+- **`npm run deploy:dev`**: Hace build en modo desarrollo y sube el resultado al proyecto de Firebase de desarrollo. Úsalo para publicar avances o pruebas.
+- **`npm run deploy:prod`**: Hace build en modo producción y sube el resultado al proyecto de Firebase de producción. Úsalo para publicar la versión final a usuarios.
+
+---

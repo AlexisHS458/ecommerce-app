@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Category } from '../models/category.model';
-import { environment } from '../../../../environments/enviroments';
+import { environment } from '../../../../environments/environment';
 
 
 @Injectable({ providedIn: 'root' })
@@ -143,7 +143,7 @@ export class ProductService {
   getProductById(id: number | string) {
     return this.http
       .get<Product>(
-        `${environment.apiUrl}/products/${id}?select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`
+          `${environment.apiUrl}/products/${id}?select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`
       )
       .pipe(
         catchError((error) => {

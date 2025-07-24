@@ -45,6 +45,13 @@
           ></app-password-input>
         </div>
 
+        <!-- Forgot Password Link -->
+        <div class="text-right mb-4">
+          <button type="button" (click)="goToForgotPassword()" class="text-blue-500 hover:text-blue-700 text-sm font-medium">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+
         <!-- Error Message -->
         <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-lg p-3">
           <p class="text-sm text-red-600 text-center">{{ error }}</p>

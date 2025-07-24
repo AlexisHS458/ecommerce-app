@@ -10,11 +10,11 @@ import Material from '@primeuix/themes/material';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { environment } from '../../environments/enviroments';
+import { environment } from '../../environments/environment';
 import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { MessageService } from 'primeng/api';
-
+console.log(environment.production)
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
