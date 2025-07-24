@@ -19,7 +19,7 @@
       routerLink="/"
       label="Continuar Comprando"
       icon="pi pi-arrow-left"
-      styleClass="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-bold shadow"
+      styleClass="btn-primary h-14"
     ></p-button>
   </div>
 
@@ -105,7 +105,7 @@
             [disabled]="(cartItems()?.length ?? 0) === 0"
             label="Vaciar Carrito"
             icon="pi pi-trash"
-            styleClass="btn-danger"
+            styleClass="bg-white text-red-600 border border-red-500 hover:bg-red-50 font-bold py-2 px-4 rounded text-base shadow mt-4"
           ></p-button>
         </div>
       </div>

@@ -11,6 +11,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockUIModule } from 'primeng/blockui';
 import { signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -24,7 +25,8 @@ import { TableModule } from 'primeng/table';
     DividerModule,
     ProgressSpinnerModule,
     BlockUIModule,
-    TableModule
+    TableModule,
+    RouterLink
   ],
   standalone: true
 })

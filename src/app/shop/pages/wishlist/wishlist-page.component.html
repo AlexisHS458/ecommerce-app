@@ -18,7 +18,7 @@
     <p-button 
       routerLink="/"
       label="Continuar Comprando"
-      styleClass="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-bold shadow"
+      styleClass="btn-primary h-14"
     ></p-button>
   </div>
 
@@ -30,7 +30,7 @@
       <p-button 
         (onClick)="clearWishlist()"
         label="Vaciar Lista"
-        styleClass="p-button-text text-red-600 hover:text-red-700"
+        styleClass="btn-danger"
         icon="pi pi-trash"
       ></p-button>
     </div>
@@ -66,19 +66,19 @@
         <p-button 
           (onClick)="addAllToCart()"
           label="Agregar Todo al Carrito"
-          styleClass="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-bold"
+          styleClass="w-full btn-primary "
           icon="pi pi-shopping-cart"
         ></p-button>
         <p-button 
           (onClick)="clearWishlist()"
           label="Vaciar Lista"
-          styleClass="w-full p-button-outlined border border-blue-300 hover:border-red-300 text-blue-800 px-4 py-2 rounded"
+          styleClass="w-full btn-danger"
           icon="pi pi-trash"
         ></p-button>
         <p-button 
           routerLink="/"
           label="Continuar Comprando"
-          styleClass="w-full p-button-outlined border border-blue-300 hover:border-blue-400 text-blue-800 px-4 py-2 rounded"
+          styleClass="w-full btn-primary"
           icon="pi pi-arrow-right"
         ></p-button>
       </div>

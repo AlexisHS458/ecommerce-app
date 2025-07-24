@@ -8,7 +8,7 @@ import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Product } from '../../../core/models/product.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -25,7 +25,8 @@ import { WishlistItem } from '../../../core/models/wishlist-item.model';
     RatingModule,
     FormsModule,
     ProductCardComponent,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    RouterLink
   ],
   standalone: true
 })
