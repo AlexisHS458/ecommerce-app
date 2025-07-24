@@ -11,7 +11,7 @@
     <nav class="mb-8 text-sm">
       <a routerLink="/" class="text-blue-600 hover:text-blue-800">Inicio</a>
       <span class="mx-2">/</span>
-      <span class="text-gray-600">{{ product.category }}</span>
+      <span class="text-gray-600" (click)="goToCategory(product.category)">{{ product.category }}</span>
       <span class="mx-2">/</span>
       <span class="text-gray-900">{{ product.title }}</span>
     </nav>

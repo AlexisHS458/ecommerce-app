@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
 import { CartService } from '../../../core/services/cart.service';
 import { WishlistService } from '../../../core/services/wishlist.service';
@@ -32,6 +32,7 @@ import { Review } from '../../../core/models/review.model';
     FormsModule,
     InputTextModule,
     TooltipModule,
+    RouterLink  
   ],
   providers: [MessageService],
   standalone: true
@@ -60,6 +61,7 @@ export class ProductDetailComponent implements OnInit {
   cartService = inject(CartService);
   wishlistService = inject(WishlistService);
   messageService = inject(MessageService);
+  router = inject(Router);
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -156,5 +158,9 @@ export class ProductDetailComponent implements OnInit {
       this.newReview = { userName: '', rating: 5, comment: '', reviewerEmail: '' };
       this.showReviewForm = false;
     }
+  }
+  
+  goToCategory(category: string) {
+    this.router.navigate(['/products'], { queryParams: { page: 1, category } });
   }
 } 
