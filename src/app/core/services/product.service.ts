@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Category } from '../models/category.model';
+import { environment } from '../../../../environments/enviroments';
 
 
 @Injectable({ providedIn: 'root' })
@@ -66,15 +67,12 @@ export class ProductService {
     order?: string;
   } = {}) {
     this.loading.set(true);
-    let url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews
-    `;
+    let url = `${environment.apiUrl}/products?limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`;
     if (category) {
-      url = `https://dummyjson.com/products/category/${encodeURIComponent(category)}?limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews
-    `;
+      url = `${environment.apiUrl}/products/category/${encodeURIComponent(category)}?limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`;
     }
     if (search) {
-      url = `https://dummyjson.com/products/search?q=${encodeURIComponent(search)}&limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews
-    `;
+      url = `${environment.apiUrl}/products/search?q=${encodeURIComponent(search)}&limit=${limit}&skip=${skip}&select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`;
     }
     // Agregar ordenamiento si está presente y soportado
     if (sortBy) {
@@ -116,7 +114,7 @@ export class ProductService {
           name: string;
           url: string;
         }[]
-      >('https://dummyjson.com/products/categories')
+      >(`${environment.apiUrl}/products/categories`)
       .subscribe({
         next: (response) => {
           // Agrega el icono SVG a cada categoría
@@ -145,7 +143,7 @@ export class ProductService {
   getProductById(id: number | string) {
     return this.http
       .get<Product>(
-        `https://dummyjson.com/products/${id}?select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`
+        `${environment.apiUrl}/products/${id}?select=id,title,price,thumbnail,category,description,discountPercentage,rating,stock,images,reviews`
       )
       .pipe(
         catchError((error) => {

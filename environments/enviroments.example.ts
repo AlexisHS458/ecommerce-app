@@ -1,5 +1,6 @@
 export const environment = {
   production: false, // Cambia a true en producción
+  apiUrl: 'url_de_la_api', // Cambia a la url de la api
   firebaseConfig: {
     apiKey: "<TU_API_KEY>",
     authDomain: "<TU_PROJECT_ID>.firebaseapp.com",
