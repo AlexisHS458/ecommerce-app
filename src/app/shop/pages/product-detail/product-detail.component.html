@@ -143,7 +143,7 @@
                 icon="pi pi-shopping-cart"
                 (onClick)="addToCart()"
                 [loading]="addingToCart"
-                styleClass="w-full bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+                styleClass="w-full btn-primary"
                 label="Agregar al carrito"
               ></p-button>
               <p-button
@@ -198,7 +198,7 @@
             (onClick)="toggleReviewForm()"
             [label]="showReviewForm ? 'Cancelar' : 'Escribir Review'"
             icon="pi pi-pencil"
-            styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+            styleClass="btn-primary"
           ></p-button>
         </div>
 
@@ -277,13 +277,13 @@
                 (onClick)="submitReview()"
                 label="Enviar Review"
                 icon="pi pi-check"
-                styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+                styleClass="btn-primary"
               ></p-button>
               <p-button
                 (onClick)="toggleReviewForm()"
                 label="Cancelar"
                 icon="pi pi-times"
-                styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+                styleClass="btn-primary"
               ></p-button>
             </div>
           </div>
@@ -337,7 +337,7 @@
               (onClick)="toggleReviewForm()"
               label="Escribir Review"
               icon="pi pi-pencil"
-              styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+              styleClass="btn-primary"
             ></p-button>
           </div>
         </div>

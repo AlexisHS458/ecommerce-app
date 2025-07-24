@@ -18,7 +18,7 @@ import { ButtonModule } from 'primeng/button';
         placeholder="Buscar productos..."
         (input)="searchProducts.emit($event)"
         (keyup.enter)="goToProductsSearch.emit()"
-        class="w-full pl-10 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+        class="w-full pl-10 pr-4 py-2"
       />
     </div>
     <!-- Mobile Search Bar -->

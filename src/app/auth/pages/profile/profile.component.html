@@ -128,7 +128,7 @@
                               name="firstName"
                               type="text"
                               placeholder="Tu nombre"
-                              class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                              class="w-full pl-10 pr-4 py-3"
                             />
                           </div>
                         </div>
@@ -150,7 +150,7 @@
                               name="lastName"
                               type="text"
                               placeholder="Tu apellido"
-                              class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                              class="w-full pl-10 pr-4 py-3"
                             />
                           </div>
                         </div>
@@ -174,7 +174,7 @@
                               name="email"
                               type="email"
                               placeholder="tu@email.com"
-                              class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                              class="w-full pl-10 pr-4 py-3"
                               [disabled]="true"
                             />
                           </div>
@@ -200,7 +200,7 @@
                               name="phone"
                               type="tel"
                               placeholder="+52 55 1234 5678"
-                              class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                              class="w-full pl-10 pr-4 py-3"
                             />
                           </div>
                         </div>
@@ -212,7 +212,7 @@
                           label="Actualizar perfil"
                           icon="pi pi-user-edit"
                           [loading]="loading"
-                          styleClass="w-full bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+                          styleClass="w-full btn-primary"
                         ></p-button>
                       </div>
                     </form>
@@ -241,7 +241,7 @@
                             name="currentPassword"
                             type="password"
                             placeholder="••••••••"
-                            class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                            class="w-full pl-10 pr-4 py-3"
                           />
                         </div>
                       </div>
@@ -264,7 +264,7 @@
                               name="newPassword"
                               type="password"
                               placeholder="••••••••"
-                              class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                              class="w-full pl-10 pr-4 py-3"
                             />
                           </div>
                           <p class="text-xs text-blue-400 mt-1">
@@ -288,7 +288,7 @@
                               name="confirmPassword"
                               type="password"
                               placeholder="••••••••"
-                              class="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                              class="w-full pl-10 pr-4 py-3"
                             />
                           </div>
                         </div>
@@ -300,7 +300,7 @@
                           label="Cambiar contraseña"
                           icon="pi pi-lock"
                           [loading]="loading"
-                          styleClass="w-full bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+                          styleClass="w-full btn-primary"
                         ></p-button>
                       </div>
                     </form>
@@ -327,7 +327,7 @@
                 (onClick)="logout()"
                 label="Cerrar sesión"
                 icon="pi pi-sign-out"
-                styleClass="w-full bg-white text-red-600 border border-red-400 hover:bg-red-50 font-bold py-2 px-4 rounded text-base shadow"
+                styleClass="w-full bg-white btn-danger"
               ></p-button>
             </ng-template>
           </p-card>

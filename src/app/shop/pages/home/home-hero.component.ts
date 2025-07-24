@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
       <p-button 
         label="Explorar productos"
         icon="pi pi-arrow-right"
-        styleClass="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-bold shadow"
+        styleClass="btn-primary h-14"
         (onClick)="explore.emit()"
       ></p-button>
     </div>

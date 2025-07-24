@@ -25,7 +25,7 @@
                   [(ngModel)]="searchQuery"
                   (keyup.enter)="onSearch()"
                   placeholder="Buscar por nombre"
-                  class="w-full pl-10 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-blue-50 text-blue-900"
+                  class="w-full pl-10 pr-4 py-2"
                   [disabled]="selectedCategory !== ''"
                   pTooltip="Deshabilitado porque hay una categoría seleccionada"
                   [tooltipDisabled]="!selectedCategory"
@@ -101,7 +101,7 @@
           </div>
 
           <!-- No Results -->
-          <p-card *ngIf="!loading && productService.products().length === 0" styleClass="text-center">
+          <p-card *ngIf="!loading && productService.products().length === 0" styleClass="text-center card">
             <i class="pi pi-search text-6xl text-gray-300 mb-4"></i>
             <h3 class="text-lg font-medium text-gray-900 mb-2">No se encontraron productos</h3>
             <p class="text-gray-600 mb-4">Intenta ajustar tus filtros de búsqueda</p>
@@ -109,7 +109,7 @@
               label="Limpiar filtros"
               icon="pi pi-refresh"
               (onClick)="clearAllFilters()"
-              styleClass="bg-white text-blue-700 border border-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded text-base shadow"
+              styleClass="btn-primary"
             ></p-button>
           </p-card>
 
