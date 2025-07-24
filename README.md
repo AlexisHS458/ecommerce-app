@@ -1,6 +1,8 @@
 # Ecommerce Angular App
 
-URL de la app: https://ecommerce-prueba-bambu.web.app/
+URL de la app producción: [https://ecommerce-prueba-bambu-prod.web.app/](https://ecommerce-prueba-bambu-prod.web.app/)
+
+URL de la app desarrollo: [https://ecommerce-prueba-bambu.web.app/](https://ecommerce-prueba-bambu.web.app/)
 
 ---
 
@@ -17,7 +19,7 @@ URL de la app: https://ecommerce-prueba-bambu.web.app/
 5. [Deploy a Firebase Hosting](#5-deploy-a-firebase-hosting)
 6. [Decisiones técnicas](#6-decisiones-técnicas)
 7. [Diagrama Entidad-Relación (ER)](#7-diagrama-entidad-relación-er)
-
+8. [Guía de comandos y cuándo usarlos](#8-guía-de-comandos-y-cuándo-usarlos)
 
 ---
 
@@ -269,15 +271,15 @@ Puedes agregar un `console.log(environment)` en tu app para verificar que el sit
 
 ## 8. Guía de comandos y cuándo usarlos
 
-Aquí tienes una guía práctica de **cuándo usar cada comando** en tu flujo de trabajo:
+Aquí tienes una guía práctica de **cuándo usar cada comando** en tu flujo de trabajo. Además, se incluyen las URLs de desarrollo y producción para referencia rápida:
 
-| ¿Qué quieres hacer?                  | Comando                | ¿Cuándo usarlo?                        |
-|--------------------------------------|------------------------|----------------------------------------|
-| Desarrollar localmente               | `npm start`            | Siempre que estés programando          |
-| Build de desarrollo (opcional)       | `npm run build`        | Pruebas locales de build               |
-| Build de producción (opcional)       | `npm run build:prod`   | Antes de deploy a prod o pruebas prod  |
-| Deploy a Firebase (desarrollo)       | `npm run deploy:dev`   | Publicar avances/pruebas en dev        |
-| Deploy a Firebase (producción)       | `npm run deploy:prod`  | Publicar versión final a usuarios      |
+| ¿Qué quieres hacer?                  | Comando                | ¿Cuándo usarlo?                        | URL relevante |
+|--------------------------------------|------------------------|----------------------------------------|--------------|
+| Desarrollar localmente               | `npm start`            | Siempre que estés programando          | [http://localhost:4200](http://localhost:4200) |
+| Build de desarrollo (opcional)       | `npm run build`        | Pruebas locales de build               | —            |
+| Build de producción (opcional)       | `npm run build:prod`   | Antes de deploy a prod o pruebas prod  | —            |
+| Deploy a Firebase (desarrollo)       | `npm run deploy:dev`   | Publicar avances/pruebas en dev        | [https://ecommerce-prueba-bambu.web.app/](https://ecommerce-prueba-bambu.web.app/) |
+| Deploy a Firebase (producción)       | `npm run deploy:prod`  | Publicar versión final a usuarios      | [https://ecommerce-prueba-bambu-prod.web.app/](https://ecommerce-prueba-bambu-prod.web.app/) |
 
 ### Explicación rápida
 
