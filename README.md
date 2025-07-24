@@ -58,8 +58,8 @@ npm install
 Angular usa archivos de environment para separar la configuración de desarrollo y producción.
 
 1. **Archivos de environment:**
-   - `src/environments/environment.ts` (desarrollo)
-   - `src/environments/environment.prod.ts` (producción)
+   - `environments/environment.ts` (desarrollo)
+   - `environments/environment.prod.ts` (producción)
 
 2. **Ejemplo de environment de desarrollo (`environment.ts`):**
    ```ts
