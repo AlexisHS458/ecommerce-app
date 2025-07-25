@@ -2,11 +2,13 @@ import { Component, signal, inject } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule, RouterLink, ButtonModule],
   templateUrl: './forgot-password.component.html',
 })
 export class ForgotPasswordComponent {
@@ -15,15 +17,6 @@ export class ForgotPasswordComponent {
   success = signal('');
   error = signal('');
   emailTouched = false;
-
-  get emailInvalid() {
-    // Validar formato de email simple
-    return !this.email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.email);
-  }
-
-  onEmailBlur() {
-    this.emailTouched = true;
-  }
 
   private authService = inject(AuthService);
 
@@ -56,8 +49,13 @@ export class ForgotPasswordComponent {
       this.emailTouched = false;
     } catch (err: unknown) {
       let msg = 'Error al enviar el correo.';
-      if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
-        msg = (err as any).message;
+      if (
+        err &&
+        typeof err === 'object' &&
+        'message' in err &&
+        typeof (err as { message?: unknown }).message === 'string'
+      ) {
+        msg = (err as { message: string }).message;
       }
       this.error.set(msg);
     } finally {

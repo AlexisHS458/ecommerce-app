@@ -2,13 +2,18 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Auth, confirmPasswordReset, verifyPasswordResetCode } from '@angular/fire/auth';
+import {
+  Auth,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
+} from '@angular/fire/auth';
 import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, FormsModule, PasswordInputComponent],
+  imports: [CommonModule, FormsModule, PasswordInputComponent, ButtonModule],
   templateUrl: './reset-password.component.html',
 })
 export class ResetPasswordComponent {
@@ -25,13 +30,15 @@ export class ResetPasswordComponent {
   email: string | null = null;
 
   constructor() {
-    this.route.queryParamMap.subscribe(async params => {
+    this.route.queryParamMap.subscribe(async (params) => {
       this.code = params.get('oobCode');
       if (this.code) {
         try {
           this.email = await verifyPasswordResetCode(this.auth, this.code);
         } catch {
-          this.error.set('El enlace de recuperación no es válido o ha expirado.');
+          this.error.set(
+            'El enlace de recuperación no es válido o ha expirado.'
+          );
         }
       } else {
         this.error.set('Código de recuperación no encontrado.');
@@ -44,8 +51,12 @@ export class ResetPasswordComponent {
       this.error.set('Por favor completa ambos campos.');
       return false;
     }
-    if (this.password.length < 8) {
-      this.error.set('La contraseña debe tener al menos 8 caracteres.');
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    if (!passwordRegex.test(this.password)) {
+      this.error.set(
+        'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
+      );
       return false;
     }
     if (this.password !== this.confirmPassword) {
@@ -63,12 +74,18 @@ export class ResetPasswordComponent {
     this.loading.set(true);
     try {
       await confirmPasswordReset(this.auth, this.code, this.password);
-      this.success.set('¡Contraseña restablecida con éxito! Ahora puedes iniciar sesión.');
+      this.success.set(
+        '¡Contraseña restablecida con éxito! Ahora puedes iniciar sesión.'
+      );
       setTimeout(() => this.router.navigate(['/login']), 2000);
-    } catch (err: any) {
-      this.error.set(err.message || 'Error al restablecer la contraseña.');
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error && err.message
+          ? err.message
+          : 'Error al restablecer la contraseña.';
+      this.error.set(errorMessage);
     } finally {
       this.loading.set(false);
     }
   }
-} 
+}
